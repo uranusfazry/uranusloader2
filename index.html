@@ -2,17 +2,14 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
   <title>UranusLoader V2 — Pengunduh TikTok Premium</title>
   <meta name="description" content="Unduh video TikTok kualitas HD tanpa watermark - Profesional & Cepat">
   
-  <!-- Ikon default (biru), bisa Anda sesuaikan -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%2300D9FF'/><text x='50' y='70' font-size='60' text-anchor='middle' fill='%23000'>U</text></svg>">
   
-  <!-- PERBAIKAN: Mengganti CDN Font Awesome untuk mengatasi ikon yang tidak muncul -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css">
   
-  <!-- Menggabungkan semua font yang dibutuhkan -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Fraunces:wght@600;700;800&display=swap" rel="stylesheet">
   
   <script src="https://cdn.tailwindcss.com"></script>
@@ -71,7 +68,7 @@
 
     body {
       font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, #0A0E1A 0%, #1a1f35 100%);
+      background: linear-gradient(135deg, var(--bg-primary) 0%, #1a1f35 100%);
       color: var(--text-primary);
       min-height: 100vh;
       overflow-x: hidden;
@@ -338,20 +335,15 @@
     .input-group {
       display: flex;
       gap: 1rem;
-      /* PERUBAHAN: Hapus margin-bottom agar tombol loading tidak terlalu jauh */
-      /* margin-bottom: 2rem; */
     }
 
     .input-field {
       flex: 1;
-      /* PERUBAHAN: Hapus tinggi tetap, tambahkan tinggi minimal dan padding */
-      /* height: 64px; */
       min-height: 64px;
       resize: vertical; /* Izinkan pengguna mengubah ukuran vertikal */
       background: rgba(0, 0, 0, 0.3);
       border: 2px solid var(--border);
       border-radius: 18px;
-      /* padding: 0 1.75rem; */
       padding: 1.25rem 1.75rem; /* Padding Y disesuaikan untuk textarea */
       color: var(--text-primary);
       font-size: 1rem;
@@ -388,6 +380,7 @@
       gap: 0.75rem;
       box-shadow: 0 8px 24px var(--glow-primary);
       letter-spacing: 0.3px;
+      flex-shrink: 0; /* Tambahkan ini agar tidak menciut di mobile */
     }
 
     .btn-primary::before {
@@ -418,6 +411,7 @@
       opacity: 0.5;
       cursor: not-allowed;
       transform: none;
+      box-shadow: none;
     }
 
     .loading-overlay {
@@ -440,18 +434,30 @@
 
     .result-section {
       display: none;
-      animation: slideIn 0.6s ease-out;
+      /* Animation diterapkan di template untuk setiap item */
+    }
+
+    .result-item-container {
+      margin-bottom: 3rem;
+    }
+
+    .video-info-card {
+      margin-bottom: 1.5rem;
+    }
+
+    .download-card {
+      margin-bottom: 2rem;
     }
 
     .video-preview {
       display: flex;
       gap: 2rem;
-      margin-bottom: 2rem;
     }
 
     .thumbnail {
       width: 160px;
       height: 160px;
+      flex-shrink: 0; /* Pastikan thumbnail tidak menciut */
       border-radius: 22px;
       object-fit: cover;
       border: 2px solid var(--border);
@@ -473,7 +479,6 @@
       font-weight: 700;
       line-height: 1.4;
       color: var(--text-primary);
-      margin-bottom: 1.25rem;
       transition: color 0.3s ease;
     }
 
@@ -806,35 +811,74 @@
         padding: 0 1.25rem;
         height: 72px;
       }
+      
+      .main-content {
+        padding: 120px 1rem 80px; /* Padding atas disesuaikan dengan header yang lebih kecil */
+      }
 
       .hero-title {
         font-size: 2.75rem;
       }
 
       .hero-subtitle {
-        font-size: 1.125rem;
+        font-size: 1rem;
       }
-
+      
+      /* PERBAIKAN UTAMA MOBILE */
       .input-group {
-        flex-direction: column;
+        flex-direction: column; /* Input dan tombol di bawah di mobile */
       }
 
       .btn-primary {
-        width: 100%;
+        width: 100%; /* Tombol Unduh full-width */
         justify-content: center;
       }
 
       .video-preview {
-        flex-direction: column;
+        flex-direction: column; /* Thumbnail dan info video di tumpuk */
+      }
+      
+      .video-info-card {
+        padding: 2rem 1.5rem; /* Padding kartu info video yang lebih kompak */
+      }
+      
+      .video-info {
+        margin-top: 1rem;
       }
 
       .thumbnail {
-        width: 100%;
-        height: 240px;
+        width: 100%; /* Thumbnail full-width */
+        height: 200px; /* Tinggi disesuaikan */
       }
 
       .main-card {
-        padding: 2rem;
+        padding: 1.5rem;
+      }
+      
+      .download-item {
+        flex-direction: column; /* Opsi download ditumpuk (deskripsi di atas tombol) */
+        align-items: flex-start;
+        padding: 1.5rem;
+      }
+      
+      .download-item > div:first-child {
+          margin-bottom: 1rem; /* Jarak antara teks dan tombol */
+      }
+      
+      .download-item .btn-primary {
+          width: 100%; /* Tombol download di dalam download-item juga full-width */
+      }
+
+      .section-title {
+        font-size: 1.25rem;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr; /* Fitur jadi kolom tunggal */
+      }
+      
+      .feature-card {
+          padding: 2rem;
       }
     }
 
@@ -846,10 +890,6 @@
       .logo-text {
         font-size: 1.5rem;
       }
-
-      .main-card {
-        padding: 1.5rem;
-      }
     }
   </style>
 </head>
@@ -860,12 +900,10 @@
       <div class="logo-text">UranusLoader V2</div>
     </div>
     <div class="header-actions">
-      <!-- Tombol Ganti Tema -->
       <button class="btn-icon" id="themeToggleBtn" title="Ganti Tema">
         <i class="fas fa-sun" style="position: absolute;"></i>
         <i class="fas fa-moon" style="position: absolute;"></i>
       </button>
-      <!-- Tombol Info -->
       <button class="btn-icon" onclick="showInfo()" title="Info">
         <i class="fas fa-circle-info"></i>
       </button>
@@ -886,15 +924,8 @@
       </p>
     </section>
 
-    <!-- Menggunakan kelas .main-card -->
     <div class="main-card" id="inputCard">
       <div class="input-group">
-        <!-- 
-          PERUBAHAN: 
-          - Mengganti <input> menjadi <textarea> 
-          - Menambahkan rows="4"
-          - Memperbarui placeholder
-        -->
         <textarea  
           class="input-field"  
           id="urlInput"  
@@ -908,37 +939,24 @@
         </button>
       </div>
       
-      <!-- PERUBAHAN: Menambahkan margin-bottom di sini agar loading spinner tetap di posisi yang baik -->
-      <div class="loading-overlay" id="loadingSection" style="margin-bottom: 2rem;">
+      <div class="loading-overlay" id="loadingSection" style="margin-top: 1.5rem;">
         <div class="loading-spinner"></div>
         <p style="color: var(--text-secondary); font-weight: 500;">Memproses video Anda...</p>
       </div>
     </div>
 
-    <!-- 
-      PERUBAHAN: 
-      - Konten hasil (video info & download) dipindahkan ke dalam <template> di bawah.
-      - #resultSection diubah menjadi #resultsContainer untuk menampung BANYAK hasil.
-    -->
-    <div class="result-section" id="resultsContainer" style="display: none;">
-      <!-- Hasil unduhan baru akan ditambahkan di sini oleh JavaScript -->
-    </div>
+    <div class="result-section" id="resultsContainer">
+      </div>
 
-    <!-- 
-      PERUBAHAN: 
-      Template untuk satu item hasil. Ini akan kita kloning (copy)
-      setiap kali ada unduhan baru.
-      Semua ID di dalam sini diubah menjadi CLASS (contoh: id="videoTitle" -> class="video-title")
-    -->
     <template id="resultTemplate">
-      <div class="result-item-container" style="animation: slideIn 0.6s ease-out;">
+      <div class="result-item-container">
         <div class="main-card video-info-card">
           <div class="video-preview">
             <img src="https://placehold.co/160x160/4A5568/E2E8F0?text=Thumbnail" alt="Video Thumbnail" class="thumbnail" onerror="this.onerror=null; this.src='https://placehold.co/160x160/4A5568/E2E8F0?text=Error';">
             <div class="video-info">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.75rem; margin-bottom: 1.25rem;">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.75rem; margin-bottom: 1rem;">
                 <h2 class="video-title" style="margin-bottom: 0;"></h2>
-                <button class="btn-icon copy-title-btn" title="Salin Judul" style="flex-shrink: 0; display: none;">
+                <button class="btn-icon copy-title-btn" title="Salin Judul" style="flex-shrink: 0; display: none; height: 40px; width: 40px; border-radius: 12px; font-size: 1rem;">
                   <i class="fas fa-copy"></i>
                 </button>
               </div>
@@ -960,7 +978,7 @@
                   <i class="fas fa-location-dot meta-icon"></i>
                   <span class="region"></span>
                 </span>
-                <span class="meta-item-group statistics-row" style="display: none; gap: 1.5rem; width: 100%; margin-top: 0.5rem;">
+                <span class="meta-item-group statistics-row" style="display: none; flex-wrap: wrap; gap: 1.5rem; width: 100%; margin-top: 0.5rem;">
                   <span class="meta-item">
                     <i class="fas fa-heart meta-icon" style="color: var(--secondary);"></i>
                     <span class="likes"></span>
@@ -978,13 +996,14 @@
             </div>
           </div>
         </div>
-
+        
         <div class="main-card download-card">
           <h3 class="section-title">
             <i class="fas fa-download" style="color: var(--primary);"></i>
             Opsi Unduhan
           </h3>
-          <div class="download-options"></div>
+          <div class="download-options">
+             </div>
         </div>
       </div>
     </template>
@@ -992,7 +1011,6 @@
     <div class="features-grid">
       <div class="feature-card">
         <div class="feature-icon">
-          <!-- PERBAIKAN: Mengganti <i> dengan <svg> -->
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M349.4 44.6c5.9-13.7 1.5-29.7-10.6-38.5s-28.6-8-39.9 1.8l-256 224c-10 8.8-13.6 22.9-8.9 35.3S50.7 288 64 288H175.5L98.6 467.4c-5.9 13.7-1.5 29.7 10.6 38.5s28.6 8 39.9-1.8l256-224c10-8.8 13.6-22.9 8.9-35.3S397.3 224 384 224H272.5L349.4 44.6z"/></svg>
         </div>
         <h3 class="feature-title">Super Cepat</h3>
@@ -1000,7 +1018,6 @@
       </div>
       <div class="feature-card">
         <div class="feature-icon">
-          <!-- PERBAIKAN: Mengganti <i> dengan <svg> -->
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path d="M528 448H112c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h416c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zM512 192l-48-96-48 96h96zM320 32L0 192v32h640v-32L320 32zM272 192l-48-96-48 96h96zM128 352h384V192H128v160z"/></svg>
         </div>
         <h3 class="feature-title">Kualitas Premium</h3>
@@ -1008,7 +1025,6 @@
       </div>
       <div class="feature-card">
         <div class="feature-icon">
-          <!-- PERBAIKAN: Mengganti <i> dengan <svg> -->
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M466.5 83.7l-192-80c-4.8-2-10.2-2-15 0l-192 80C57.4 87.7 48 97.4 48 108.3V360c0 73.4 41.2 142.3 104.2 178.6c13.4 7.5 28.1 11.4 43.8 11.4s30.4-3.9 43.8-11.4C379.7 519.8 464 433.4 464 360V108.3c0-10.9-9.4-20.6-19.5-24.6zM226.4 390L151 314.6c-6.2-6.2-6.2-16.4 0-22.6s16.4-6.2 22.6 0l52.8 52.8l133.2-133.2c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6L226.4 390z"/></svg>
         </div>
         <h3 class="feature-title">Pribadi & Aman</h3>
@@ -1049,30 +1065,18 @@
           // PERUBAHAN: Menggunakan kontainer & template
           resultsContainer: document.getElementById('resultsContainer'),
           resultTemplate: document.getElementById('resultTemplate')
-          
-          // ELEMEN STATIS DIHAPUS (karena sekarang dinamis):
-          // thumbnail: document.getElementById('thumbnail'),
-          // videoTitle: document.getElementById('videoTitle'),
-          // duration: document.getElementById('duration'),
-          // date: document.getElementById('date'),
-          // region: document.getElementById('region'),
-          // creator: document.getElementById('creator'),
-          // likes: document.getElementById('likes'),
-          // comments: document.getElementById('comments'),
-          // shares: document.getElementById('shares'),
-          // statisticsRow: document.getElementById('statistics-row'),
-          // copyTitleBtn: document.getElementById('copyTitleBtn'),
-          // downloadOptions: document.getElementById('downloadOptions')
         };
       },
 
       attachEventListeners() {
         this.elements.downloadBtn.addEventListener('click', () => this.processDownload());
         this.elements.urlInput.addEventListener('keypress', (e) => {
-          if (e.key === 'Enter') this.processDownload();
+          // Hanya menjalankan download jika tombol enter ditekan tanpa shift (untuk mencegah form submit)
+          if (e.key === 'Enter' && !e.shiftKey) {
+             e.preventDefault(); // Mencegah baris baru di textarea
+             this.processDownload();
+          }
         });
-        // PERUBAHAN: Listener copyTitleBtn dipindahkan ke renderResults
-        // this.elements.copyTitleBtn.addEventListener('click', () => this.copyTitleToClipboard());
         
         // Event listener untuk tombol tema
         this.elements.themeToggleBtn.addEventListener('click', () => this.toggleTheme());
@@ -1105,7 +1109,6 @@
       async processDownload() {
         const allText = this.elements.urlInput.value.trim();
         
-        // PERUBAHAN:
         // 1. Pisahkan string input menjadi array URL
         //    Regex /[\s\n]+/ memisahkan berdasarkan spasi ATAU baris baru
         //    .filter(Boolean) menyaring entri kosong jika ada baris kosong
@@ -1117,21 +1120,21 @@
           return;
         }
 
-        // 3. Tampilkan loading
+        // 3. Tampilkan loading dan hapus hasil sebelumnya
         this.toggleLoading(true);
+        this.elements.resultsContainer.innerHTML = '';
+        this.elements.resultsContainer.style.display = 'none';
         let hasSuccessfulDownload = false; // Lacak jika setidaknya satu berhasil
 
-        // 4. Looping setiap URL menggunakan for...of agar 'await' berfungsi
+        // 4. Looping setiap URL
         for (const url of urls) {
           
-          // PERBAIKAN: Memanggil this.validateURL
           if (!this.validateURL(url)) {
             console.warn(`URL tidak valid dilewati: ${url}`);
             continue; // Lanjut ke URL berikutnya
           }
 
           // 5. Pindahkan try/catch ke DALAM loop
-          //    Agar jika satu URL gagal, loop tetap lanjut ke URL berikutnya
           try {
             const apiURL = `https://api.zenzxz.my.id/api/downloader/tiktok?url=${encodeURIComponent(url)}`;
             const response = await fetch(apiURL);
@@ -1147,11 +1150,9 @@
             console.error('Fetch Error:', error);
             this.displayError(`Terjadi kesalahan jaringan untuk URL: ${url}.`);
           }
-          // Loop akan menunggu 'await' di atas selesai sebelum lanjut ke URL berikutnya
           
-          // --- PERBAIKAN ---
-          // Tambahkan jeda 1.5 detik di antara setiap permintaan
-          // Ini untuk menghindari rate-limit dari API (server)
+          // --- PERBAIKAN: Jeda Antar Permintaan ---
+          // Tambahkan jeda 1.5 detik di antara setiap permintaan untuk menghindari rate-limit
           await new Promise(resolve => setTimeout(resolve, 1500));
         }
         
@@ -1165,18 +1166,14 @@
         }
       },
       
-      // PERBAIKAN: Menambahkan kembali fungsi validateURL yang hilang
       validateURL(url) {
-        if (!url) {
-          this.displayError('Silakan masukkan URL TikTok');
+        if (!url || typeof url !== 'string' || url.trim() === '') {
           return false;
         }
-
-        if (!url.includes('tiktok.com')) {
-          this.displayError('URL TikTok tidak valid. Silakan periksa dan coba lagi.');
+        // Hanya perlu cek apakah mengandung tiktok.com
+        if (!url.toLowerCase().includes('tiktok.com')) {
           return false;
         }
-
         return true;
       },
 
@@ -1203,6 +1200,7 @@
         const clone = this.elements.resultTemplate.content.cloneNode(true);
 
         // 2. Temukan semua elemen di dalam klon (menggunakan querySelector dan CLASS)
+        const itemContainer = clone.querySelector('.result-item-container'); // Container untuk animasi
         const thumbnail = clone.querySelector('.thumbnail');
         const videoTitle = clone.querySelector('.video-title');
         const duration = clone.querySelector('.duration');
@@ -1231,7 +1229,7 @@
           comments.textContent = this.formatNumber(data.statistics.comment_count);
           shares.textContent = this.formatNumber(data.statistics.share_count);
           statisticsRow.style.display = 'flex';
-          statisticsRow.style.flexWrap = 'wrap';
+          // statisticsRow.style.flexWrap = 'wrap'; /* Sudah di CSS */
         } else {
           statisticsRow.style.display = 'none';
           creator.textContent = data.author?.nickname || 'Tidak Dikenal';
@@ -1248,15 +1246,22 @@
         if (this.elements.resultsContainer.style.display === 'none') {
           this.elements.resultsContainer.style.display = 'block';
         }
+        
+        // 7. Tambahkan animasi slideIn ke item
+        itemContainer.style.animation = 'slideIn 0.6s ease-out';
+        itemContainer.style.marginBottom = '3rem';
 
-        // 7. Tambahkan klon yang sudah diisi data ke halaman (prepend = tambahkan di atas)
-        this.elements.resultsContainer.prepend(clone.children[0]);
+        // 8. Tambahkan klon yang sudah diisi data ke halaman (prepend = tambahkan di atas)
+        this.elements.resultsContainer.prepend(itemContainer);
       },
 
-      // PERUBAHAN: Fungsi ini sekarang menerima 'container' sebagai argumen
       generateDownloadOptions(data, container) {
         let optionsHTML = ''; 
         
+        // PERBAIKAN: Mengganti hdplay dengan play_url (karena hdplay mungkin adalah link berwatermark?)
+        // Saya asumsikan data.hdplay yang Anda maksud adalah NW (No Watermark).
+        // Jika API Anda menyediakan link NW di data.play, gunakan itu. 
+        // Saya tetap menggunakan `hdplay` seperti di kode Anda untuk menghindari error.
         if (data.hdplay) {
           optionsHTML += `
             <div class="download-item">
@@ -1270,7 +1275,7 @@
                   Ukuran: ${this.formatBytes(data.hd_size)}
                 </div>
               </div>
-              <button class="btn-primary" onclick="UranusApp.initiateDownload('${data.hdplay}', 'video')" style="height: 52px; padding: 0 2.5rem;">
+              <button class="btn-primary" onclick="UranusApp.initiateDownload('${data.hdplay}', 'video')" style="height: 52px; padding: 0 2.5rem; flex-shrink: 0;">
                 <i class="fas fa-download"></i>
                 <span>Unduh</span>
               </button>
@@ -1290,9 +1295,9 @@
                   ${data.music_info.title || 'Suara Asli'} • ${data.music_info.author || 'Tidak Dikenal'}
                 </div>
               </div>
-              <button class="btn-primary" onclick="UranusApp.initiateDownload('${data.music_info.play}', 'audio')" style="height: 52px; padding: 0 2.5rem; background: linear-gradient(135deg, var(--secondary), #F472B6); box-shadow: 0 8px 24px var(--glow-secondary);">
+              <button class="btn-primary" onclick="UranusApp.initiateDownload('${data.music_info.play}', 'audio')" style="height: 52px; padding: 0 2.5rem; flex-shrink: 0; background: linear-gradient(135deg, var(--secondary), #F472B6); box-shadow: 0 8px 24px var(--glow-secondary);">
                 <i class="fas fa-download"></i>
-                <span>Unduh</span>
+                <span>Unduh MP3</span>
               </button>
             </div>
           `;
@@ -1302,16 +1307,43 @@
         container.innerHTML = optionsHTML; 
       },
 
-      // PERUBAHAN: Fungsi ini sekarang menerima 'textToCopy' dan 'buttonEl'
       copyTitleToClipboard(textToCopy, buttonEl) {
         if (!textToCopy) return;
 
+        // Menggunakan navigator.clipboard API yang modern dan lebih baik
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(textToCopy)
+                .then(() => {
+                    const copyBtnIcon = buttonEl.querySelector('i');
+                    copyBtnIcon.classList.remove('fa-copy');
+                    copyBtnIcon.classList.add('fa-check');
+                    buttonEl.title = "Disalin!";
+
+                    setTimeout(() => {
+                        copyBtnIcon.classList.remove('fa-check');
+                        copyBtnIcon.classList.add('fa-copy');
+                        buttonEl.title = "Salin Judul";
+                    }, 2000);
+                })
+                .catch(err => {
+                    console.error('Gagal menyalin judul (Clipboard API):', err);
+                    // Fallback jika API gagal
+                    this.fallbackCopyTextToClipboard(textToCopy, buttonEl);
+                });
+        } else {
+            // Fallback untuk browser lama
+            this.fallbackCopyTextToClipboard(textToCopy, buttonEl);
+        }
+      },
+      
+      fallbackCopyTextToClipboard(textToCopy, buttonEl) {
         const tempTextArea = document.createElement('textarea');
         tempTextArea.style.position = 'fixed';
         tempTextArea.style.left = '-9999px';
         tempTextArea.value = textToCopy;
         
         document.body.appendChild(tempTextArea);
+        tempTextArea.focus();
         tempTextArea.select();
         
         let success = false;
@@ -1324,7 +1356,6 @@
         document.body.removeChild(tempTextArea);
 
         if (success) {
-          // PERUBAHAN: Menargetkan ikon di dalam tombol yang spesifik
           const copyBtnIcon = buttonEl.querySelector('i');
           copyBtnIcon.classList.remove('fa-copy');
           copyBtnIcon.classList.add('fa-check');
@@ -1336,14 +1367,25 @@
             buttonEl.title = "Salin Judul";
           }, 2000);
         } else {
-          alert('Gagal menyalin. Browser Anda mungkin tidak mendukung fitur ini.');
+          alert('Gagal menyalin. Browser Anda mungkin tidak mendukung fitur ini atau memerlukan izin.');
         }
       },
 
       initiateDownload(url, type) {
-        const newWindow = window.open(url, '_blank');
-        if (!newWindow) {
-          alert('Mohon izinkan pop-up untuk situs ini agar dapat mengunduh file.');
+        // Cek jika URL adalah Blob URL, maka tidak perlu window.open
+        if (url.startsWith('blob:')) {
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `tiktok_${Date.now()}.${type === 'audio' ? 'mp3' : 'mp4'}`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        } else {
+            // Menggunakan window.open dengan tujuan _blank lebih umum untuk link unduhan.
+            const newWindow = window.open(url, '_blank');
+            if (!newWindow) {
+              alert('Mohon izinkan pop-up untuk situs ini agar dapat mengunduh file.');
+            }
         }
       },
 
