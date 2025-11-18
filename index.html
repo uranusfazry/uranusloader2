@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>UranusLoader V2 — Pengunduh TikTok Premium</title>
+  <meta name="description" content="Unduh video TikTok kualitas HD tanpa watermark - Profesional & Cepat">
+  
+  <!-- Ikon default (biru), bisa Anda sesuaikan -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%2300D9FF'/><text x='50' y='70' font-size='60' text-anchor='middle' fill='%23000'>U</text></svg>">
+  
+  <!-- PERBAIKAN: Mengganti CDN Font Awesome untuk mengatasi ikon yang tidak muncul -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css">
+  
+  <!-- Menggabungkan semua font yang dibutuhkan -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Fraunces:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* --- TEMA DASAR (GELAP / DARK MODE - FILE 1) --- */
+    :root {
+      --primary: #00D9FF;
+      --primary-dark: #00A8CC;
+      --secondary: #FF0080;
+      --accent: #7C3AED;
+      --bg-primary: #0A0E1A;
+      --bg-secondary: #111827;
+      --bg-glass: rgba(17, 24, 39, 0.4);
+      --text-primary: #F9FAFB;
+      --text-secondary: #9CA3AF;
+      --text-tertiary: #6B7280;
+      --border: rgba(255, 255, 255, 0.08);
+      --glow-primary: rgba(0, 217, 255, 0.2);
+      --glow-secondary: rgba(255, 0, 128, 0.2);
+
+      /* Variabel bayangan dari Tema Terang (untuk jaga-jaga) */
+      --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+      --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+      --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+    }
+
+    /* --- TEMA TERANG (LIGHT MODE - FILE 2) --- */
+    body.light-theme {
+      --primary: #4F46E5;
+      --primary-light: #6366F1;
+      --primary-dark: #4338CA;
+      --secondary: #EC4899;
+      --accent: #8B5CF6;
+      --bg-primary: #FFFFFF;
+      --bg-secondary: #F9FAFB;
+      --bg-tertiary: #F3F4F6;
+      --text-primary: #111827;
+      --text-secondary: #6B7280;
+      --text-tertiary: #9CA3AF;
+      --border: #E5E7EB;
+      --border-light: #F3F4F6;
+      
+      /* Reset glow untuk light mode */
+      --glow-primary: rgba(79, 70, 229, 0.25);
+      --glow-secondary: rgba(236, 72, 153, 0.25);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #0A0E1A 0%, #1a1f35 100%);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background:  
+        radial-gradient(circle at 20% 30%, var(--glow-primary) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, var(--glow-secondary) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.15;
+      animation: pulse 8s ease-in-out infinite;
+      transition: background 0.5s ease, opacity 0.5s ease;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.15; }
+      50% { opacity: 0.25; }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes shimmer {
+      0% { background-position: -1000px 0; }
+      100% { background-position: 1000px 0; }
+    }
+    
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 80px;
+      background: rgba(10, 14, 26, 0.7);
+      backdrop-filter: blur(24px) saturate(180%);
+      border-bottom: 1px solid var(--border);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2.5rem;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .logo-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 1.75rem;
+      color: #000;
+      box-shadow: 0 8px 24px var(--glow-primary), 0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .logo-icon::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      animation: shimmer 3s infinite;
+    }
+
+    .logo-icon:hover {
+      transform: scale(1.05) rotate(-5deg);
+      box-shadow: 0 12px 32px var(--glow-primary);
+    }
+
+    .logo-text {
+      font-size: 1.75rem;
+      font-weight: 700;
+      font-family: 'Space Grotesk', sans-serif;
+      letter-spacing: -0.5px;
+      background: linear-gradient(90deg, var(--primary), #FFF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 30px var(--glow-primary);
+      transition: all 0.3s ease;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .btn-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      font-size: 1.125rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-icon::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .btn-icon:hover {
+      border-color: var(--primary);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px var(--glow-primary);
+    }
+
+    .btn-icon:hover::before {
+      opacity: 0.1;
+    }
+
+    .btn-icon i {
+      position: relative;
+      z-index: 1;
+      transition: transform 0.3s ease;
+    }
+    
+    /* Tombol tema */
+    #themeToggleBtn i.fa-sun { transform: scale(1); }
+    #themeToggleBtn i.fa-moon { transform: scale(0); }
+
+    .main-content {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 140px 1.5rem 120px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-section {
+      text-align: center;
+      margin-bottom: 4rem;
+      animation: slideIn 0.8s ease-out;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.625rem 1.25rem;
+      background: rgba(0, 217, 255, 0.08);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(0, 217, 255, 0.2);
+      border-radius: 50px;
+      color: var(--primary);
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 2rem;
+      letter-spacing: 0.5px;
+      box-shadow: 0 0 20px var(--glow-primary);
+      animation: float 3s ease-in-out infinite;
+      transition: all 0.3s ease;
+    }
+
+    .hero-title {
+      font-size: 4rem;
+      font-weight: 700;
+      font-family: 'Space Grotesk', sans-serif;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      letter-spacing: -2px;
+      color: var(--text-primary); /* Base color */
+      text-shadow: 0 0 40px var(--glow-primary);
+      transition: all 0.3s ease;
+    }
+    
+    .hero-gradient {
+      background: linear-gradient(90deg, var(--primary) 0%, #FFF 50%, var(--secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      transition: all 0.3s ease;
+    }
+
+    .hero-subtitle {
+      font-size: 1.25rem;
+      color: var(--text-secondary);
+      max-width: 640px;
+      margin: 0 auto;
+      line-height: 1.8;
+      font-weight: 400;
+      transition: color 0.3s ease;
+    }
+
+    /* Menggunakan .main-card sebagai kelas umum, defaultnya .glass-card */
+    .main-card {
+      background: var(--bg-glass);
+      backdrop-filter: blur(24px) saturate(180%);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 3rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .main-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--primary), transparent);
+      opacity: 0.5;
+      transition: all 0.3s ease;
+    }
+
+    .main-card:hover {
+      border-color: rgba(0, 217, 255, 0.3);
+      box-shadow: 0 12px 48px rgba(0, 217, 255, 0.15);
+      transform: translateY(-4px);
+    }
+
+    .input-group {
+      display: flex;
+      gap: 1rem;
+      /* PERUBAHAN: Hapus margin-bottom agar tombol loading tidak terlalu jauh */
+      /* margin-bottom: 2rem; */
+    }
+
+    .input-field {
+      flex: 1;
+      /* PERUBAHAN: Hapus tinggi tetap, tambahkan tinggi minimal dan padding */
+      /* height: 64px; */
+      min-height: 64px;
+      resize: vertical; /* Izinkan pengguna mengubah ukuran vertikal */
+      background: rgba(0, 0, 0, 0.3);
+      border: 2px solid var(--border);
+      border-radius: 18px;
+      /* padding: 0 1.75rem; */
+      padding: 1.25rem 1.75rem; /* Padding Y disesuaikan untuk textarea */
+      color: var(--text-primary);
+      font-size: 1rem;
+      font-weight: 500;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .input-field:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: rgba(0, 0, 0, 0.5);
+      box-shadow: 0 0 0 4px var(--glow-primary), 0 0 24px var(--glow-primary);
+    }
+
+    .input-field::placeholder {
+      color: var(--text-tertiary);
+    }
+
+    .btn-primary {
+      position: relative;
+      height: 64px;
+      padding: 0 3rem;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border: none;
+      border-radius: 18px;
+      color: #000;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      box-shadow: 0 8px 24px var(--glow-primary);
+      letter-spacing: 0.3px;
+    }
+
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .btn-primary:hover::before {
+      left: 100%;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px var(--glow-primary);
+    }
+
+    .btn-primary:active {
+      transform: translateY(-1px);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .loading-overlay {
+      display: none;
+      padding: 3rem;
+      text-align: center;
+    }
+
+    .loading-spinner {
+      width: 64px;
+      height: 64px;
+      border: 4px solid rgba(255, 255, 255, 0.1);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 1.5rem;
+      box-shadow: 0 0 24px var(--glow-primary);
+      transition: border-color 0.3s ease;
+    }
+
+    .result-section {
+      display: none;
+      animation: slideIn 0.6s ease-out;
+    }
+
+    .video-preview {
+      display: flex;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .thumbnail {
+      width: 160px;
+      height: 160px;
+      border-radius: 22px;
+      object-fit: cover;
+      border: 2px solid var(--border);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      transition: all 0.3s ease;
+    }
+
+    .thumbnail:hover {
+      transform: scale(1.05);
+      box-shadow: 0 12px 48px var(--glow-primary);
+    }
+
+    .video-info {
+      flex: 1;
+    }
+
+    .video-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      line-height: 1.4;
+      color: var(--text-primary);
+      margin-bottom: 1.25rem;
+      transition: color 0.3s ease;
+    }
+
+    .video-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      color: var(--text-secondary);
+      font-size: 0.9375rem;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .meta-icon {
+      color: var(--primary);
+      transition: color 0.3s ease;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: var(--text-primary);
+      transition: color 0.3s ease;
+    }
+
+    .download-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2rem;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      margin-bottom: 1rem;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .download-item:hover {
+      border-color: var(--primary);
+      background: rgba(0, 217, 255, 0.05);
+      transform: translateX(8px);
+    }
+
+    .quality-badge {
+      display: inline-block;
+      padding: 0.375rem 1rem;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #000;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-left: 0.75rem;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 12px var(--glow-primary);
+      transition: all 0.3s ease;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    /* Menggunakan .feature-card sebagai kelas umum */
+    .feature-card {
+      padding: 2.5rem;
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(12px);
+    }
+
+    .feature-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-8px);
+      box-shadow: 0 12px 48px var(--glow-primary);
+    }
+
+    .feature-icon {
+      width: 64px;
+      height: 64px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #000;
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 8px 24px var(--glow-primary);
+      transition: all 0.3s ease;
+    }
+
+    .feature-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      color: var(--text-primary);
+      transition: color 0.3s ease;
+    }
+
+    .feature-desc {
+      color: var(--text-secondary);
+      font-size: 0.9375rem;
+      line-height: 1.7;
+      transition: color 0.3s ease;
+    }
+
+    /* PERBAIKAN: Menambahkan style untuk SVG ikon yang di-embed */
+    .feature-icon svg {
+      width: 2rem; /* Sesuai font-size asli */
+      height: 2rem; /* Sesuai font-size asli */
+      fill: currentColor; /* Akan mewarisi 'color' dari .feature-icon */
+    }
+
+    .footer {
+      text-align: center;
+      padding: 3rem 1.5rem;
+      color: var(--text-tertiary);
+      font-size: 0.875rem;
+      border-top: 1px solid var(--border);
+      margin-top: 5rem;
+      transition: all 0.3s ease;
+    }
+
+    /* --- OVERRIDES UNTUK TEMA TERANG --- */
+    
+    body.light-theme {
+      background: linear-gradient(180deg, #FFFFFF 0%, #F9FAFB 100%);
+    }
+
+    body.light-theme body::before {
+      background:  
+        radial-gradient(circle at 10% 20%, rgba(79, 70, 229, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 90% 80%, rgba(236, 72, 153, 0.05) 0%, transparent 50%);
+      opacity: 1;
+      animation: none; /* Hapus animasi pulse di light mode */
+    }
+
+    body.light-theme .header {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(20px) saturate(180%);
+      box-shadow: var(--shadow-sm);
+    }
+
+    body.light-theme .logo-icon {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+      box-shadow: 0 8px 16px rgba(79, 70, 229, 0.25), 0 0 0 1px rgba(79, 70, 229, 0.1) inset;
+    }
+    
+    body.light-theme .logo-icon::before {
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    }
+
+    body.light-theme .logo-icon:hover {
+      box-shadow: 0 12px 24px rgba(79, 70, 229, 0.35);
+    }
+
+    body.light-theme .logo-text {
+      font-family: 'Fraunces', serif;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: none;
+    }
+
+    body.light-theme .btn-icon {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+    }
+    
+    body.light-theme .btn-icon::before {
+      opacity: 0; /* Tidak ada gradien di light mode */
+    }
+
+    body.light-theme .btn-icon:hover {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+      box-shadow: 0 8px 16px rgba(79, 70, 229, 0.25);
+    }
+    
+    body.light-theme #themeToggleBtn i.fa-sun { transform: scale(0); }
+    body.light-theme #themeToggleBtn i.fa-moon { transform: scale(1); }
+
+    body.light-theme .hero-badge {
+      background: linear-gradient(135deg, rgba(79, 70, 229, 0.08), rgba(236, 72, 153, 0.08));
+      border: 1px solid rgba(79, 70, 229, 0.15);
+      color: var(--primary);
+      font-weight: 700;
+      box-shadow: 0 2px 8px rgba(79, 70, 229, 0.1);
+    }
+
+    body.light-theme .hero-title {
+      font-family: 'Fraunces', serif;
+      font-weight: 800;
+      text-shadow: none;
+    }
+
+    body.light-theme .hero-gradient {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    body.light-theme .main-card {
+      background: var(--bg-primary);
+      backdrop-filter: none; /* Matikan glass effect */
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-xl);
+    }
+
+    body.light-theme .main-card::before {
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--primary), var(--secondary), transparent);
+      opacity: 0.3;
+    }
+
+    body.light-theme .main-card:hover {
+      box-shadow: var(--shadow-2xl);
+      transform: translateY(-6px);
+      border-color: rgba(79, 70, 229, 0.2);
+    }
+
+    body.light-theme .input-field {
+      background: var(--bg-secondary);
+      border: 2px solid var(--border);
+      min-height: 64px; /* Pastikan min-height juga ada di light mode */
+    }
+
+    body.light-theme .input-field:focus {
+      border-color: var(--primary);
+      background: white;
+      box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.08), var(--shadow-md);
+    }
+
+    body.light-theme .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+    }
+
+    body.light-theme .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(79, 70, 229, 0.35);
+    }
+    
+    body.light-theme .loading-spinner {
+      border: 4px solid var(--bg-tertiary);
+      border-top-color: var(--primary);
+      box-shadow: none;
+    }
+
+    body.light-theme .thumbnail {
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-lg);
+    }
+    
+    body.light-theme .thumbnail:hover {
+      box-shadow: var(--shadow-2xl);
+    }
+
+    body.light-theme .download-item {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+    }
+
+    body.light-theme .download-item:hover {
+      border-color: var(--primary);
+      background: white;
+      box-shadow: var(--shadow-lg);
+      transform: translateX(8px);
+    }
+
+    body.light-theme .quality-badge {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+      box-shadow: 0 2px 8px rgba(79, 70, 229, 0.2);
+    }
+    
+    /* Override tombol download audio */
+    body.light-theme .download-item .btn-primary[style*="--secondary"] {
+        background: linear-gradient(135deg, var(--secondary), #F472B6) !important;
+        box-shadow: 0 4px 12px rgba(236, 72, 153, 0.25) !important;
+    }
+
+    body.light-theme .feature-card {
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: none; /* Matikan glass effect */
+    }
+
+    body.light-theme .feature-card:hover {
+      border-color: var(--primary);
+      box-shadow: var(--shadow-xl);
+      transform: translateY(-8px);
+    }
+
+    body.light-theme .feature-icon {
+      background: linear-gradient(135deg, rgba(79, 70, 229, 0.1), rgba(236, 72, 153, 0.1));
+      color: var(--primary);
+      box-shadow: none;
+    }
+
+    body.light-theme .feature-card:hover .feature-icon {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+      box-shadow: 0 8px 16px rgba(79, 70, 229, 0.25);
+    }
+
+    /* --- RESPONSIVE MEDIA QUERIES --- */
+    @media (max-width: 768px) {
+      .header {
+        padding: 0 1.25rem;
+        height: 72px;
+      }
+
+      .hero-title {
+        font-size: 2.75rem;
+      }
+
+      .hero-subtitle {
+        font-size: 1.125rem;
+      }
+
+      .input-group {
+        flex-direction: column;
+      }
+
+      .btn-primary {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .video-preview {
+        flex-direction: column;
+      }
+
+      .thumbnail {
+        width: 100%;
+        height: 240px;
+      }
+
+      .main-card {
+        padding: 2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title {
+        font-size: 2.25rem;
+      }
+
+      .logo-text {
+        font-size: 1.5rem;
+      }
+
+      .main-card {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="logo-container">
+      <div class="logo-icon">U</div>
+      <div class="logo-text">UranusLoader V2</div>
+    </div>
+    <div class="header-actions">
+      <!-- Tombol Ganti Tema -->
+      <button class="btn-icon" id="themeToggleBtn" title="Ganti Tema">
+        <i class="fas fa-sun" style="position: absolute;"></i>
+        <i class="fas fa-moon" style="position: absolute;"></i>
+      </button>
+      <!-- Tombol Info -->
+      <button class="btn-icon" onclick="showInfo()" title="Info">
+        <i class="fas fa-circle-info"></i>
+      </button>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <section class="hero-section">
+      <div class="hero-badge">
+        <i class="fas fa-sparkles"></i> Kualitas Premium
+      </div>
+      <h1 class="hero-title">
+        Unduh TikTok<br>
+        <span class="hero-gradient">Tanpa Batas</span>
+      </h1>
+      <p class="hero-subtitle">
+        Rasakan cara tercepat dan paling elegan untuk menyimpan video TikTok dalam kualitas HD murni, sepenuhnya gratis.
+      </p>
+    </section>
+
+    <!-- Menggunakan kelas .main-card -->
+    <div class="main-card" id="inputCard">
+      <div class="input-group">
+        <!-- 
+          PERUBAHAN: 
+          - Mengganti <input> menjadi <textarea> 
+          - Menambahkan rows="4"
+          - Memperbarui placeholder
+        -->
+        <textarea  
+          class="input-field"  
+          id="urlInput"  
+          rows="4"
+          placeholder="Tempelkan satu atau beberapa URL TikTok di sini... (pisahkan dengan baris baru atau spasi)"
+        ></textarea>
+        
+        <button class="btn-primary" id="downloadBtn">
+          <i class="fas fa-arrow-down"></i>
+          <span>Unduh</span>
+        </button>
+      </div>
+      
+      <!-- PERUBAHAN: Menambahkan margin-bottom di sini agar loading spinner tetap di posisi yang baik -->
+      <div class="loading-overlay" id="loadingSection" style="margin-bottom: 2rem;">
+        <div class="loading-spinner"></div>
+        <p style="color: var(--text-secondary); font-weight: 500;">Memproses video Anda...</p>
+      </div>
+    </div>
+
+    <!-- 
+      PERUBAHAN: 
+      - Konten hasil (video info & download) dipindahkan ke dalam <template> di bawah.
+      - #resultSection diubah menjadi #resultsContainer untuk menampung BANYAK hasil.
+    -->
+    <div class="result-section" id="resultsContainer" style="display: none;">
+      <!-- Hasil unduhan baru akan ditambahkan di sini oleh JavaScript -->
+    </div>
+
+    <!-- 
+      PERUBAHAN: 
+      Template untuk satu item hasil. Ini akan kita kloning (copy)
+      setiap kali ada unduhan baru.
+      Semua ID di dalam sini diubah menjadi CLASS (contoh: id="videoTitle" -> class="video-title")
+    -->
+    <template id="resultTemplate">
+      <div class="result-item-container" style="animation: slideIn 0.6s ease-out;">
+        <div class="main-card video-info-card">
+          <div class="video-preview">
+            <img src="https://placehold.co/160x160/4A5568/E2E8F0?text=Thumbnail" alt="Video Thumbnail" class="thumbnail" onerror="this.onerror=null; this.src='https://placehold.co/160x160/4A5568/E2E8F0?text=Error';">
+            <div class="video-info">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.75rem; margin-bottom: 1.25rem;">
+                <h2 class="video-title" style="margin-bottom: 0;"></h2>
+                <button class="btn-icon copy-title-btn" title="Salin Judul" style="flex-shrink: 0; display: none;">
+                  <i class="fas fa-copy"></i>
+                </button>
+              </div>
+              
+              <div class="video-meta">
+                <span class="meta-item" style="width: 100%; margin-bottom: 0.5rem;">
+                  <i class="fas fa-user meta-icon"></i>
+                  <span class="creator" style="font-weight: 600;"></span>
+                </span>
+                <span class="meta-item">
+                  <i class="fas fa-calendar-days meta-icon"></i>
+                  <span class="date"></span>
+                </span>
+                <span class="meta-item">
+                  <i class="fas fa-clock meta-icon"></i>
+                  <span class="duration"></span>
+                </span>
+                <span class="meta-item">
+                  <i class="fas fa-location-dot meta-icon"></i>
+                  <span class="region"></span>
+                </span>
+                <span class="meta-item-group statistics-row" style="display: none; gap: 1.5rem; width: 100%; margin-top: 0.5rem;">
+                  <span class="meta-item">
+                    <i class="fas fa-heart meta-icon" style="color: var(--secondary);"></i>
+                    <span class="likes"></span>
+                  </span>
+                  <span class="meta-item">
+                    <i class="fas fa-comment meta-icon"></i>
+                    <span class="comments"></span>
+                  </span>
+                  <span class="meta-item">
+                    <i class="fas fa-share meta-icon"></i>
+                    <span class="shares"></span>
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="main-card download-card">
+          <h3 class="section-title">
+            <i class="fas fa-download" style="color: var(--primary);"></i>
+            Opsi Unduhan
+          </h3>
+          <div class="download-options"></div>
+        </div>
+      </div>
+    </template>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <!-- PERBAIKAN: Mengganti <i> dengan <svg> -->
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M349.4 44.6c5.9-13.7 1.5-29.7-10.6-38.5s-28.6-8-39.9 1.8l-256 224c-10 8.8-13.6 22.9-8.9 35.3S50.7 288 64 288H175.5L98.6 467.4c-5.9 13.7-1.5 29.7 10.6 38.5s28.6 8 39.9-1.8l256-224c10-8.8 13.6-22.9 8.9-35.3S397.3 224 384 224H272.5L349.4 44.6z"/></svg>
+        </div>
+        <h3 class="feature-title">Super Cepat</h3>
+        <p class="feature-desc">Unduhan secepat kilat didukung oleh server premium di seluruh dunia</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <!-- PERBAIKAN: Mengganti <i> dengan <svg> -->
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path d="M528 448H112c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h416c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zM512 192l-48-96-48 96h96zM320 32L0 192v32h640v-32L320 32zM272 192l-48-96-48 96h96zM128 352h384V192H128v160z"/></svg>
+        </div>
+        <h3 class="feature-title">Kualitas Premium</h3>
+        <p class="feature-desc">Resolusi maksimum tanpa watermark atau penurunan kualitas</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <!-- PERBAIKAN: Mengganti <i> dengan <svg> -->
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M466.5 83.7l-192-80c-4.8-2-10.2-2-15 0l-192 80C57.4 87.7 48 97.4 48 108.3V360c0 73.4 41.2 142.3 104.2 178.6c13.4 7.5 28.1 11.4 43.8 11.4s30.4-3.9 43.8-11.4C379.7 519.8 464 433.4 464 360V108.3c0-10.9-9.4-20.6-19.5-24.6zM226.4 390L151 314.6c-6.2-6.2-6.2-16.4 0-22.6s16.4-6.2 22.6 0l52.8 52.8l133.2-133.2c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6L226.4 390z"/></svg>
+        </div>
+        <h3 class="feature-title">Pribadi & Aman</h3>
+        <p class="feature-desc">Data Anda tetap milik Anda. Tanpa pelacakan, tanpa penyimpanan</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>© 2025 UranusLoader V2. Dibuat dengan sempurna.</p>
+  </footer>
+
+  <script>
+    function showInfo() {
+      // Menggunakan custom alert yang lebih baik
+      alert('🚀 UranusLoader V2\n\nPengunduh TikTok tepercaya Anda\nCepat • Aman • Elegan\n\nDikembangkan dengan sempurna');
+    }
+    
+    const UranusApp = {
+      elements: {},
+      videoData: null,
+
+      initialize() {
+        this.cacheElements();
+        this.attachEventListeners();
+        this.applyInitialTheme(); // Terapkan tema saat memuat
+        this.focusInput();
+      },
+
+      cacheElements() {
+        this.elements = {
+          urlInput: document.getElementById('urlInput'),
+          downloadBtn: document.getElementById('downloadBtn'),
+          themeToggleBtn: document.getElementById('themeToggleBtn'), // Tombol tema
+          loadingSection: document.getElementById('loadingSection'),
+          inputCard: document.getElementById('inputCard'),
+          
+          // PERUBAHAN: Menggunakan kontainer & template
+          resultsContainer: document.getElementById('resultsContainer'),
+          resultTemplate: document.getElementById('resultTemplate')
+          
+          // ELEMEN STATIS DIHAPUS (karena sekarang dinamis):
+          // thumbnail: document.getElementById('thumbnail'),
+          // videoTitle: document.getElementById('videoTitle'),
+          // duration: document.getElementById('duration'),
+          // date: document.getElementById('date'),
+          // region: document.getElementById('region'),
+          // creator: document.getElementById('creator'),
+          // likes: document.getElementById('likes'),
+          // comments: document.getElementById('comments'),
+          // shares: document.getElementById('shares'),
+          // statisticsRow: document.getElementById('statistics-row'),
+          // copyTitleBtn: document.getElementById('copyTitleBtn'),
+          // downloadOptions: document.getElementById('downloadOptions')
+        };
+      },
+
+      attachEventListeners() {
+        this.elements.downloadBtn.addEventListener('click', () => this.processDownload());
+        this.elements.urlInput.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') this.processDownload();
+        });
+        // PERUBAHAN: Listener copyTitleBtn dipindahkan ke renderResults
+        // this.elements.copyTitleBtn.addEventListener('click', () => this.copyTitleToClipboard());
+        
+        // Event listener untuk tombol tema
+        this.elements.themeToggleBtn.addEventListener('click', () => this.toggleTheme());
+      },
+      
+      applyInitialTheme() {
+        const savedTheme = localStorage.getItem('theme') || 'dark'; // Default ke gelap
+        if (savedTheme === 'light') {
+          document.body.classList.add('light-theme');
+        } else {
+          document.body.classList.remove('light-theme');
+        }
+      },
+
+      toggleTheme() {
+        const body = document.body;
+        if (body.classList.contains('light-theme')) {
+          body.classList.remove('light-theme');
+          localStorage.setItem('theme', 'dark');
+        } else {
+          body.classList.add('light-theme');
+          localStorage.setItem('theme', 'light');
+        }
+      },
+
+      focusInput() {
+        this.elements.urlInput.focus();
+      },
+
+      async processDownload() {
+        const allText = this.elements.urlInput.value.trim();
+        
+        // PERUBAHAN:
+        // 1. Pisahkan string input menjadi array URL
+        //    Regex /[\s\n]+/ memisahkan berdasarkan spasi ATAU baris baru
+        //    .filter(Boolean) menyaring entri kosong jika ada baris kosong
+        const urls = allText.split(/[\s\n]+/).filter(Boolean);
+
+        // 2. Cek jika array-nya kosong
+        if (urls.length === 0) {
+          this.displayError('Silakan masukkan satu atau beberapa URL TikTok');
+          return;
+        }
+
+        // 3. Tampilkan loading
+        this.toggleLoading(true);
+        let hasSuccessfulDownload = false; // Lacak jika setidaknya satu berhasil
+
+        // 4. Looping setiap URL menggunakan for...of agar 'await' berfungsi
+        for (const url of urls) {
+          
+          // PERBAIKAN: Memanggil this.validateURL
+          if (!this.validateURL(url)) {
+            console.warn(`URL tidak valid dilewati: ${url}`);
+            continue; // Lanjut ke URL berikutnya
+          }
+
+          // 5. Pindahkan try/catch ke DALAM loop
+          //    Agar jika satu URL gagal, loop tetap lanjut ke URL berikutnya
+          try {
+            const apiURL = `https://api.zenzxz.my.id/api/downloader/tiktok?url=${encodeURIComponent(url)}`;
+            const response = await fetch(apiURL);
+            const result = await response.json();
+
+            if (result.success && result.data) {
+              this.renderResults(result.data);
+              hasSuccessfulDownload = true; // Tandai sukses
+            } else {
+              this.displayError(`Gagal untuk URL: ${url}\n${result.message || 'Tidak dapat mengambil data video'}`);
+            }
+          } catch (error) {
+            console.error('Fetch Error:', error);
+            this.displayError(`Terjadi kesalahan jaringan untuk URL: ${url}.`);
+          }
+          // Loop akan menunggu 'await' di atas selesai sebelum lanjut ke URL berikutnya
+          
+          // --- PERBAIKAN ---
+          // Tambahkan jeda 1.5 detik di antara setiap permintaan
+          // Ini untuk menghindari rate-limit dari API (server)
+          await new Promise(resolve => setTimeout(resolve, 1500));
+        }
+        
+        // 6. Sembunyikan loading SETELAH semua loop selesai
+        this.toggleLoading(false);
+
+        // 7. Kosongkan input HANYA jika setidaknya satu unduhan berhasil
+        if (hasSuccessfulDownload) {
+          this.elements.urlInput.value = ''; 
+          this.elements.urlInput.focus();
+        }
+      },
+      
+      // PERBAIKAN: Menambahkan kembali fungsi validateURL yang hilang
+      validateURL(url) {
+        if (!url) {
+          this.displayError('Silakan masukkan URL TikTok');
+          return false;
+        }
+
+        if (!url.includes('tiktok.com')) {
+          this.displayError('URL TikTok tidak valid. Silakan periksa dan coba lagi.');
+          return false;
+        }
+
+        return true;
+      },
+
+      toggleLoading(isLoading) {
+        this.elements.loadingSection.style.display = isLoading ? 'block' : 'none';
+        this.elements.downloadBtn.disabled = isLoading;
+        
+        if (isLoading) {
+          this.elements.downloadBtn.innerHTML = `
+            <i class="fas fa-spinner fa-spin"></i>
+            <span>Memproses...</span>
+          `;
+        } else {
+          this.elements.downloadBtn.innerHTML = `
+            <i class="fas fa-arrow-down"></i>
+            <span>Unduh</span>
+          `;
+        }
+      },
+
+      // PERUBAHAN: renderResults kini membuat klon dari template
+      renderResults(data) {
+        // 1. Buat klon dari template
+        const clone = this.elements.resultTemplate.content.cloneNode(true);
+
+        // 2. Temukan semua elemen di dalam klon (menggunakan querySelector dan CLASS)
+        const thumbnail = clone.querySelector('.thumbnail');
+        const videoTitle = clone.querySelector('.video-title');
+        const duration = clone.querySelector('.duration');
+        const date = clone.querySelector('.date');
+        const region = clone.querySelector('.region');
+        const creator = clone.querySelector('.creator');
+        const likes = clone.querySelector('.likes');
+        const comments = clone.querySelector('.comments');
+        const shares = clone.querySelector('.shares');
+        const statisticsRow = clone.querySelector('.statistics-row');
+        const copyBtn = clone.querySelector('.copy-title-btn');
+        const downloadOptionsContainer = clone.querySelector('.download-options');
+
+        // 3. Isi data ke elemen klon
+        thumbnail.src = data.cover || 'https://placehold.co/160x160/4A5568/E2E8F0?text=Thumbnail';
+        thumbnail.onerror = () => { thumbnail.onerror=null; thumbnail.src='https://placehold.co/160x160/4A5568/E2E8F0?text=Error'; };
+        
+        videoTitle.textContent = data.title || 'Video Tanpa Judul';
+        duration.textContent = `${data.duration || 0} detik`;
+        date.textContent = this.formatTimestamp(data.create_time);
+        region.textContent = data.region || 'Global';
+
+        if (data.statistics) {
+          creator.textContent = data.author?.nickname || 'Tidak Dikenal';
+          likes.textContent = this.formatNumber(data.statistics.like_count);
+          comments.textContent = this.formatNumber(data.statistics.comment_count);
+          shares.textContent = this.formatNumber(data.statistics.share_count);
+          statisticsRow.style.display = 'flex';
+          statisticsRow.style.flexWrap = 'wrap';
+        } else {
+          statisticsRow.style.display = 'none';
+          creator.textContent = data.author?.nickname || 'Tidak Dikenal';
+        }
+
+        // 4. Buat opsi unduhan di dalam klon
+        this.generateDownloadOptions(data, downloadOptionsContainer);
+        
+        // 5. Tambahkan event listener untuk tombol copy (yang ada di klon)
+        copyBtn.style.display = 'flex';
+        copyBtn.addEventListener('click', () => this.copyTitleToClipboard(videoTitle.textContent, copyBtn));
+
+        // 6. Tampilkan kontainer utama jika ini hasil pertama
+        if (this.elements.resultsContainer.style.display === 'none') {
+          this.elements.resultsContainer.style.display = 'block';
+        }
+
+        // 7. Tambahkan klon yang sudah diisi data ke halaman (prepend = tambahkan di atas)
+        this.elements.resultsContainer.prepend(clone.children[0]);
+      },
+
+      // PERUBAHAN: Fungsi ini sekarang menerima 'container' sebagai argumen
+      generateDownloadOptions(data, container) {
+        let optionsHTML = ''; 
+        
+        if (data.hdplay) {
+          optionsHTML += `
+            <div class="download-item">
+              <div>
+                <div style="font-weight: 700; font-size: 1.0625rem; margin-bottom: 0.375rem;">
+                  <i class="fas fa-video" style="color: var(--primary);"></i>
+                  Video HD
+                  <span class="quality-badge">TANPA WATERMARK</span>
+                </div>
+                <div style="font-size: 0.9375rem; color: var(--text-secondary); font-weight: 500;">
+                  Ukuran: ${this.formatBytes(data.hd_size)}
+                </div>
+              </div>
+              <button class="btn-primary" onclick="UranusApp.initiateDownload('${data.hdplay}', 'video')" style="height: 52px; padding: 0 2.5rem;">
+                <i class="fas fa-download"></i>
+                <span>Unduh</span>
+              </button>
+            </div>
+          `;
+        }
+        
+        if (data.music_info && data.music_info.play) {
+          optionsHTML += `
+            <div class="download-item">
+              <div>
+                <div style="font-weight: 700; font-size: 1.0625rem; margin-bottom: 0.375rem;">
+                  <i class="fas fa-music" style="color: var(--secondary);"></i>
+                  Trek Audio
+                </div>
+                <div style="font-size: 0.9375rem; color: var(--text-secondary); font-weight: 500;">
+                  ${data.music_info.title || 'Suara Asli'} • ${data.music_info.author || 'Tidak Dikenal'}
+                </div>
+              </div>
+              <button class="btn-primary" onclick="UranusApp.initiateDownload('${data.music_info.play}', 'audio')" style="height: 52px; padding: 0 2.5rem; background: linear-gradient(135deg, var(--secondary), #F472B6); box-shadow: 0 8px 24px var(--glow-secondary);">
+                <i class="fas fa-download"></i>
+                <span>Unduh</span>
+              </button>
+            </div>
+          `;
+        }
+
+        // PERUBAHAN: Mengisi HTML ke container yang spesifik
+        container.innerHTML = optionsHTML; 
+      },
+
+      // PERUBAHAN: Fungsi ini sekarang menerima 'textToCopy' dan 'buttonEl'
+      copyTitleToClipboard(textToCopy, buttonEl) {
+        if (!textToCopy) return;
+
+        const tempTextArea = document.createElement('textarea');
+        tempTextArea.style.position = 'fixed';
+        tempTextArea.style.left = '-9999px';
+        tempTextArea.value = textToCopy;
+        
+        document.body.appendChild(tempTextArea);
+        tempTextArea.select();
+        
+        let success = false;
+        try {
+          success = document.execCommand('copy');
+        } catch (err) {
+          console.error('Gagal menyalin judul:', err);
+        }
+        
+        document.body.removeChild(tempTextArea);
+
+        if (success) {
+          // PERUBAHAN: Menargetkan ikon di dalam tombol yang spesifik
+          const copyBtnIcon = buttonEl.querySelector('i');
+          copyBtnIcon.classList.remove('fa-copy');
+          copyBtnIcon.classList.add('fa-check');
+          buttonEl.title = "Disalin!";
+
+          setTimeout(() => {
+            copyBtnIcon.classList.remove('fa-check');
+            copyBtnIcon.classList.add('fa-copy');
+            buttonEl.title = "Salin Judul";
+          }, 2000);
+        } else {
+          alert('Gagal menyalin. Browser Anda mungkin tidak mendukung fitur ini.');
+        }
+      },
+
+      initiateDownload(url, type) {
+        const newWindow = window.open(url, '_blank');
+        if (!newWindow) {
+          alert('Mohon izinkan pop-up untuk situs ini agar dapat mengunduh file.');
+        }
+      },
+
+      formatTimestamp(timestamp) {
+        if (!timestamp) return 'Tidak Diketahui';
+        const date = new Date(timestamp * 1000);
+        return date.toLocaleDateString('id-ID', {
+          month: 'short', 
+          day: 'numeric', 
+          year: 'numeric' 
+        });
+      },
+
+      formatNumber(num) {
+        if (num === undefined || num === null) return '0';
+        return new Intl.NumberFormat('id-ID', {
+          notation: 'compact',
+          maximumFractionDigits: 1
+        }).format(num);
+      },
+
+      formatBytes(bytes) {
+        if (!bytes || bytes <= 0) return 'Tidak Diketahui';
+        if (bytes >= 1048576) return (bytes / 1048576).toFixed(2) + ' MB';
+        if (bytes >= 1024) return (bytes / 1024).toFixed(2) + ' KB';
+        return bytes + ' B';
+      },
+
+      displayError(message) {
+        alert(`⚠️ ${message}`);
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      UranusApp.initialize();
+    });
+  </script>
+</body>
+</html>
