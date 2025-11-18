@@ -74,6 +74,9 @@
       overflow-x: hidden;
       position: relative;
       transition: background 0.3s ease, color 0.3s ease;
+      /* PERBAIKAN: Menambahkan anti-aliasing untuk font yang lebih tajam */
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     body::before {
@@ -118,7 +121,6 @@
     }
 
     .header {
-      /* PERUBAHAN DARI PERMINTAAN SEBELUMNYA: Menggunakan absolute agar diam di atas */
       position: absolute; 
       top: 0;
       left: 0;
@@ -140,8 +142,6 @@
       display: flex;
       align-items: center;
       gap: 1rem;
-      /* Menghapus animasi float agar logo tidak goyang */
-      /* animation: float 3s ease-in-out infinite; */
     }
 
     .logo-icon {
@@ -185,7 +185,8 @@
       background: linear-gradient(90deg, var(--primary), #FFF);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 30px var(--glow-primary);
+      /* PERBAIKAN: Mengganti glow dengan shadow yang lebih tajam */
+      text-shadow: 0 1px 3px rgba(0,0,0,0.4);
       transition: all 0.3s ease;
     }
 
@@ -281,7 +282,8 @@
       margin-bottom: 1.5rem;
       letter-spacing: -2px;
       color: var(--text-primary); /* Base color */
-      text-shadow: 0 0 40px var(--glow-primary);
+      /* PERBAIKAN: Mengurangi radius glow agar lebih tajam */
+      text-shadow: 0 0 15px var(--glow-primary);
       transition: all 0.3s ease;
     }
      
@@ -289,6 +291,8 @@
       background: linear-gradient(90deg, var(--primary) 0%, #FFF 50%, var(--secondary) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      /* PERBAIKAN: Menambahkan stroke tipis untuk mempertajam pinggiran */
+      -webkit-text-stroke: 0.5px rgba(0, 0, 0, 0.2);
       transition: all 0.3s ease;
     }
 
@@ -601,7 +605,6 @@
       transition: color 0.3s ease;
     }
 
-    /* PERBAIKAN: Menambahkan style untuk SVG ikon yang di-embed */
     .feature-icon svg {
       width: 2rem; /* Sesuai font-size asli */
       height: 2rem; /* Sesuai font-size asli */
@@ -658,7 +661,7 @@
       background: linear-gradient(135deg, var(--primary), var(--secondary));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      text-shadow: none;
+      text-shadow: none; /* PERBAIKAN: Memastikan shadow ter-override */
     }
 
     body.light-theme .btn-icon {
@@ -692,13 +695,15 @@
     body.light-theme .hero-title {
       font-family: 'Fraunces', serif;
       font-weight: 800;
-      text-shadow: none;
+      text-shadow: none; /* PERBAIKAN: Memastikan shadow ter-override */
     }
 
     body.light-theme .hero-gradient {
       background: linear-gradient(135deg, var(--primary), var(--secondary));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      /* PERBAIKAN: Stroke di light mode mungkin perlu disesuaikan (tapi 0.2 opacity hitam masih ok) */
+      -webkit-text-stroke: 0.5px rgba(0, 0, 0, 0.1);
     }
 
     body.light-theme .main-card {
@@ -1238,13 +1243,8 @@
           <img src="https://placehold.co/160x160/4A5568/E2E8F0?text=Thumbnail" alt="Video Thumbnail" class="thumbnail" onerror="this.onerror=null; this.src='https://placehold.co/160x160/4A5568/E2E8F0?text=Error';">
           <div class="video-info">
             
-            <!-- PERUBAHAN DI SINI: -->
-            <!-- 1. Wrapper 'display: flex' dihapus -->
-            
-            <!-- 2. Judul sekarang berdiri sendiri -->
             <h2 class="video-title"></h2>
             
-            <!-- 3. Tombol Salin sekarang di bawah judul, dengan margin -->
             <button class="btn-icon copy-title-btn" title="Salin Judul" style="flex-shrink: 0; display: none; height: 40px; width: 40px; border-radius: 12px; font-size: 1rem; margin-top: 0.75rem; margin-bottom: 1.25rem;">
               <i class="fas fa-copy"></i>
             </button>
