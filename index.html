@@ -1232,20 +1232,25 @@
       </div>
 
     <template id="resultTemplate">
-      <div class="result-item-container">
-        <div class="main-card video-info-card">
-          <div class="video-preview">
-            <img src="https://placehold.co/160x160/4A5568/E2E8F0?text=Thumbnail" alt="Video Thumbnail" class="thumbnail" onerror="this.onerror=null; this.src='https://placehold.co/160x160/4A5568/E2E8F0?text=Error';">
-            <div class="video-info">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.75rem; margin-bottom: 1rem;">
-                <h2 class="video-title" style="margin-bottom: 0;"></h2>
-                <button class="btn-icon copy-title-btn" title="Salin Judul" style="flex-shrink: 0; display: none; height: 40px; width: 40px; border-radius: 12px; font-size: 1rem;">
-                  <i class="fas fa-copy"></i>
-                </button>
-              </div>
-               
-              <div class="video-meta">
-                <span class="meta-item" style="width: 100%; margin-bottom: 0.5rem;">
+    <div class="result-item-container">
+      <div class="main-card video-info-card">
+        <div class="video-preview">
+          <img src="https://placehold.co/160x160/4A5568/E2E8F0?text=Thumbnail" alt="Video Thumbnail" class="thumbnail" onerror="this.onerror=null; this.src='https://placehold.co/160x160/4A5568/E2E8F0?text=Error';">
+          <div class="video-info">
+            
+            <!-- PERUBAHAN DI SINI: -->
+            <!-- 1. Wrapper 'display: flex' dihapus -->
+            
+            <!-- 2. Judul sekarang berdiri sendiri -->
+            <h2 class="video-title"></h2>
+            
+            <!-- 3. Tombol Salin sekarang di bawah judul, dengan margin -->
+            <button class="btn-icon copy-title-btn" title="Salin Judul" style="flex-shrink: 0; display: none; height: 40px; width: 40px; border-radius: 12px; font-size: 1rem; margin-top: 0.75rem; margin-bottom: 1.25rem;">
+              <i class="fas fa-copy"></i>
+            </button>
+            
+            <div class="video-meta">
+              <span class="meta-item" style="width: 100%; margin-bottom: 0.5rem;">
                   <i class="fas fa-user meta-icon"></i>
                   <span class="creator" style="font-weight: 600;"></span>
                 </span>
