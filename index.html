@@ -1024,6 +1024,156 @@
         font-size: 0.9375rem;
       }
     }
+    
+    /* --- CSS BARU: MODAL KUSTOM UNTUK ERROR/WARNING --- */
+    .error-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(10px) saturate(180%);
+      z-index: 2000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .error-modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .error-modal {
+      background: var(--bg-glass);
+      backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2.5rem;
+      max-width: 480px;
+      width: 90%;
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+      color: var(--text-primary);
+      text-align: center;
+      transform: translateY(20px);
+      opacity: 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .error-modal-overlay.active .error-modal {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .error-modal-icon {
+      font-size: 3rem;
+      color: #FFD700; /* Warna kuning untuk peringatan */
+      margin-bottom: 1.5rem;
+      text-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+    }
+     
+    .error-modal-icon.error { /* Opsional: untuk ikon error merah */
+        color: #FF4136;
+        text-shadow: 0 0 20px rgba(255, 65, 54, 0.4);
+    }
+
+    .error-modal-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.875rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+      color: var(--text-primary);
+    }
+
+    .error-modal-body {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 2rem;
+      white-space: pre-line;
+    }
+
+    .error-modal-btn {
+      background: linear-gradient(135deg, #FFD700, #FFA500); /* Kuning/Oranye */
+      border: none;
+      border-radius: 12px;
+      color: #000;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 0.875rem 2rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 16px rgba(255, 215, 0, 0.3);
+    }
+     
+    .error-modal-btn.error { /* Opsional: untuk tombol error merah */
+        background: linear-gradient(135deg, #FF4136, #B10000);
+        color: white;
+        box-shadow: 0 4px 16px rgba(255, 65, 54, 0.3);
+    }
+
+    .error-modal-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(255, 215, 0, 0.4);
+    }
+     
+    .error-modal-btn.error:hover {
+        box-shadow: 0 8px 24px rgba(255, 65, 54, 0.4);
+    }
+
+    /* Light Theme overrides for error modal */
+    body.light-theme .error-modal-overlay {
+      background: rgba(255, 255, 255, 0.7);
+    }
+
+    body.light-theme .error-modal {
+      background: var(--bg-primary);
+      backdrop-filter: none;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-2xl);
+    }
+
+    body.light-theme .error-modal-icon {
+      color: #FFD700;
+      text-shadow: none;
+    }
+     
+    body.light-theme .error-modal-icon.error {
+        color: #FF4136;
+    }
+
+    body.light-theme .error-modal-btn {
+      background: linear-gradient(135deg, #FFD700, #FFA500);
+      color: #000;
+      box-shadow: 0 4px 12px rgba(255, 215, 0, 0.25);
+    }
+     
+    body.light-theme .error-modal-btn.error {
+        background: linear-gradient(135deg, #FF4136, #B10000);
+        color: white;
+        box-shadow: 0 4px 12px rgba(255, 65, 54, 0.25);
+    }
+
+    /* Responsif untuk modal kesalahan */
+    @media (max-width: 480px) {
+      .error-modal {
+        padding: 2rem 1.5rem;
+      }
+      .error-modal-icon {
+        font-size: 2.5rem;
+      }
+      .error-modal-title {
+        font-size: 1.5rem;
+      }
+      .error-modal-body {
+        font-size: 0.9375rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1037,7 +1187,6 @@
         <i class="fas fa-sun" style="position: absolute;"></i>
         <i class="fas fa-moon" style="position: absolute;"></i>
       </button>
-      <!-- PERUBAHAN: Menghapus onclick="showInfo()" dan menambahkan id="infoBtn" -->
       <button class="btn-icon" id="infoBtn" title="Info">
         <i class="fas fa-circle-info"></i>
       </button>
@@ -1167,7 +1316,7 @@
     </div>
   </main>
 
-  <!-- TAMBAHAN BARU: HTML untuk modal kustom -->
+  <!-- HTML untuk modal info -->
   <div class="custom-modal-overlay" id="infoModalOverlay">
     <div class="custom-modal" id="infoModal">
       <div class="custom-modal-icon">
@@ -1184,17 +1333,23 @@ Dikembangkan dengan sempurna
     </div>
   </div>
 
+  <!-- HTML BARU: HTML untuk modal error/warning -->
+  <div class="error-modal-overlay" id="errorModalOverlay">
+    <div class="error-modal" id="errorModal">
+      <div class="error-modal-icon">
+        <i class="fas fa-triangle-exclamation"></i> <!-- Ikon default (kuning) -->
+      </div>
+      <h3 class="error-modal-title">Peringatan!</h3>
+      <p class="error-modal-body">Pesan kesalahan akan muncul di sini.</p>
+      <button class="error-modal-btn" id="closeErrorModalBtn">Oke</button>
+    </div>
+  </div>
+
   <footer class="footer">
     <p>© 2025 UranusLoader V2. Dibuat dengan sempurna.</p>
   </footer>
 
   <script>
-    // PERUBAHAN: Menghapus fungsi showInfo() global
-    /* function showInfo() {
-      alert('🚀 UranusLoader V2\n\nPengunduh TikTok tepercaya Anda\nCepat • Aman • Elegan\n\nDikembangkan dengan sempurna');
-    }
-    */
-     
     const UranusApp = {
       elements: {},
       videoData: null,
@@ -1210,46 +1365,59 @@ Dikembangkan dengan sempurna
         this.elements = {
           urlInput: document.getElementById('urlInput'),
           downloadBtn: document.getElementById('downloadBtn'),
-          themeToggleBtn: document.getElementById('themeToggleBtn'), // Tombol tema
+          themeToggleBtn: document.getElementById('themeToggleBtn'),
           loadingSection: document.getElementById('loadingSection'),
           inputCard: document.getElementById('inputCard'),
            
           resultsContainer: document.getElementById('resultsContainer'),
           resultTemplate: document.getElementById('resultTemplate'),
           
-          // TAMBAHAN BARU: Cache elemen modal
+          // Elemen modal info
           infoBtn: document.getElementById('infoBtn'),
           infoModalOverlay: document.getElementById('infoModalOverlay'),
-          closeInfoModalBtn: document.getElementById('closeInfoModalBtn')
+          closeInfoModalBtn: document.getElementById('closeInfoModalBtn'),
+          
+          // JAVASCRIPT BARU: Elemen modal error
+          errorModalOverlay: document.getElementById('errorModalOverlay'),
+          errorModalTitle: document.querySelector('#errorModal .error-modal-title'),
+          errorModalBody: document.querySelector('#errorModal .error-modal-body'),
+          errorModalIcon: document.querySelector('#errorModal .error-modal-icon'),
+          errorModalBtn: document.getElementById('closeErrorModalBtn'), // Nama ID di HTML adalah closeErrorModalBtn
+          closeErrorModalBtn: document.getElementById('closeErrorModalBtn')
         };
       },
 
       attachEventListeners() {
         this.elements.downloadBtn.addEventListener('click', () => this.processDownload());
         this.elements.urlInput.addEventListener('keypress', (e) => {
-          // Hanya menjalankan download jika tombol enter ditekan tanpa shift (untuk mencegah form submit)
           if (e.key === 'Enter' && !e.shiftKey) {
-             e.preventDefault(); // Mencegah baris baru di textarea
+             e.preventDefault();
              this.processDownload();
           }
         });
          
-        // Event listener untuk tombol tema
         this.elements.themeToggleBtn.addEventListener('click', () => this.toggleTheme());
         
-        // TAMBAHAN BARU: Event listener untuk modal
+        // Event listener modal info
         this.elements.infoBtn.addEventListener('click', () => this.showInfoModal(true));
         this.elements.closeInfoModalBtn.addEventListener('click', () => this.showInfoModal(false));
         this.elements.infoModalOverlay.addEventListener('click', (event) => {
-            // Hanya tutup jika klik pada overlay (latar belakang), bukan pada modalnya
             if (event.target === this.elements.infoModalOverlay) {
                 this.showInfoModal(false);
+            }
+        });
+        
+        // JAVASCRIPT BARU: Event listener modal error
+        this.elements.closeErrorModalBtn.addEventListener('click', () => this.showErrorModal(false));
+        this.elements.errorModalOverlay.addEventListener('click', (event) => {
+            if (event.target === this.elements.errorModalOverlay) {
+                this.showErrorModal(false);
             }
         });
       },
        
       applyInitialTheme() {
-        const savedTheme = localStorage.getItem('theme') || 'dark'; // Default ke gelap
+        const savedTheme = localStorage.getItem('theme') || 'dark';
         if (savedTheme === 'light') {
           document.body.classList.add('light-theme');
         } else {
@@ -1268,12 +1436,20 @@ Dikembangkan dengan sempurna
         }
       },
       
-      // TAMBAHAN BARU: Fungsi untuk menampilkan/menyembunyikan modal
       showInfoModal(show) {
         if (show) {
           this.elements.infoModalOverlay.classList.add('active');
         } else {
           this.elements.infoModalOverlay.classList.remove('active');
+        }
+      },
+      
+      // JAVASCRIPT BARU: Fungsi untuk menampilkan/menyembunyikan modal error
+      showErrorModal(show) {
+        if (show) {
+            this.elements.errorModalOverlay.classList.add('active');
+        } else {
+            this.elements.errorModalOverlay.classList.remove('active');
         }
       },
 
@@ -1287,7 +1463,8 @@ Dikembangkan dengan sempurna
         const urls = allText.split(/[\s\n]+/).filter(Boolean);
 
         if (urls.length === 0) {
-          this.displayError('Silakan masukkan satu atau beberapa URL TikTok');
+          // JAVASCRIPT DIPERBARUI: Memanggil modal error
+          this.displayError('Silakan masukkan satu atau beberapa URL TikTok.');
           return;
         }
 
@@ -1312,11 +1489,13 @@ Dikembangkan dengan sempurna
               this.renderResults(result.data);
               hasSuccessfulDownload = true; 
             } else {
-              this.displayError(`Gagal untuk URL: ${url}\n${result.message || 'Tidak dapat mengambil data video'}`);
+              // JAVASCRIPT DIPERBARUI: Memanggil modal error (kegagalan API)
+              this.displayError(`Gagal untuk URL: ${url}\n${result.message || 'Tidak dapat mengambil data video'}`, true);
             }
           } catch (error) {
             console.error('Fetch Error:', error);
-            this.displayError(`Terjadi kesalahan jaringan untuk URL: ${url}.`);
+            // JAVASCRIPT DIPERBARUI: Memanggil modal error (kesalahan jaringan)
+            this.displayError(`Terjadi kesalahan jaringan untuk URL: ${url}. Pastikan Anda memiliki koneksi internet.`, true);
           }
            
           await new Promise(resolve => setTimeout(resolve, 1500));
@@ -1512,8 +1691,8 @@ Dikembangkan dengan sempurna
             buttonEl.title = "Salin Judul";
           }, 2000);
         } else {
-          // Masih menggunakan alert untuk fallback/error copy
-          alert('Gagal menyalin. Browser Anda mungkin tidak mendukung fitur ini atau memerlukan izin.');
+          // JAVASCRIPT DIPERBARUI: Memanggil modal error
+          this.displayError('Gagal menyalin. Browser Anda mungkin tidak mendukung fitur ini atau memerlukan izin.', true);
         }
       },
 
@@ -1528,8 +1707,8 @@ Dikembangkan dengan sempurna
         } else {
             const newWindow = window.open(url, '_blank');
             if (!newWindow) {
-              // Masih menggunakan alert untuk error pop-up
-              alert('Mohon izinkan pop-up untuk situs ini agar dapat mengunduh file.');
+              // JAVASCRIPT DIPERBARUI: Memanggil modal error
+              this.displayError('Mohon izinkan pop-up untuk situs ini agar dapat mengunduh file.', true);
             }
         }
       },
@@ -1559,9 +1738,33 @@ Dikembangkan dengan sempurna
         return bytes + ' B';
       },
 
-      displayError(message) {
-        // Masih menggunakan alert untuk notifikasi error
-        alert(`⚠️ ${message}`);
+      // JAVASCRIPT DIPERBARUI: Mengganti alert() dengan modal kustom
+      displayError(message, isCritical = false) {
+        this.elements.errorModalTitle.textContent = isCritical ? 'Terjadi Kesalahan!' : 'Peringatan!';
+        this.elements.errorModalBody.textContent = message;
+         
+        const btn = this.elements.errorModalBtn;
+        
+        // Atur ikon dan warna berdasarkan tipe
+        if (isCritical) {
+            this.elements.errorModalIcon.innerHTML = '<i class="fas fa-circle-exclamation"></i>'; // Ikon error merah
+            this.elements.errorModalIcon.classList.add('error');
+            btn.classList.add('error');
+            // Terapkan style langsung untuk memastikan override (terutama untuk light mode)
+            btn.style.background = 'linear-gradient(135deg, #FF4136, #B10000)';
+            btn.style.color = 'white';
+            btn.style.boxShadow = '0 4px 16px rgba(255, 65, 54, 0.3)';
+        } else {
+            this.elements.errorModalIcon.innerHTML = '<i class="fas fa-triangle-exclamation"></i>'; // Ikon peringatan kuning
+            this.elements.errorModalIcon.classList.remove('error');
+            btn.classList.remove('error');
+            // Reset style untuk kembali ke default CSS (kuning)
+            btn.style.background = '';
+            btn.style.color = '';
+            btn.style.boxShadow = '';
+        }
+         
+        this.showErrorModal(true); // Memanggil fungsi untuk menampilkan modal
       }
     };
 
