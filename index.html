@@ -118,7 +118,7 @@
     }
 
     .header {
-      /* PERUBAHAN DI SINI: Menggunakan absolute agar diam di atas (tidak ikut scroll) */
+      /* PERUBAHAN DARI PERMINTAAN SEBELUMNYA: Menggunakan absolute agar diam di atas */
       position: absolute; 
       top: 0;
       left: 0;
@@ -140,7 +140,7 @@
       display: flex;
       align-items: center;
       gap: 1rem;
-      /* PERUBAHAN: Menghapus animasi float agar logo tidak goyang */
+      /* Menghapus animasi float agar logo tidak goyang */
       /* animation: float 3s ease-in-out infinite; */
     }
 
@@ -893,6 +893,137 @@
         font-size: 1.5rem;
       }
     }
+    
+    /* --- MODAL KUSTOM (untuk notifikasi info) --- */
+    .custom-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(10px) saturate(180%);
+      z-index: 2000; /* Lebih tinggi dari header */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .custom-modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .custom-modal {
+      background: var(--bg-glass);
+      backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2.5rem;
+      max-width: 480px;
+      width: 90%;
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+      color: var(--text-primary);
+      text-align: center;
+      transform: translateY(20px);
+      opacity: 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      position: relative; /* Untuk tombol close absolute */
+    }
+
+    .custom-modal-overlay.active .custom-modal {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .custom-modal-icon {
+      font-size: 3rem;
+      color: var(--primary);
+      margin-bottom: 1.5rem;
+      text-shadow: 0 0 20px var(--glow-primary);
+    }
+
+    .custom-modal-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.875rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+      color: var(--text-primary);
+    }
+
+    .custom-modal-body {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 2rem;
+      white-space: pre-line; /* Mempertahankan format baris baru dari JS */
+    }
+
+    .custom-modal-btn {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border: none;
+      border-radius: 12px;
+      color: #000;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 0.875rem 2rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 16px var(--glow-primary);
+    }
+
+    .custom-modal-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px var(--glow-primary);
+    }
+
+    /* Light Theme overrides for modal */
+    body.light-theme .custom-modal-overlay {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px) saturate(180%);
+    }
+
+    body.light-theme .custom-modal {
+      background: var(--bg-primary);
+      backdrop-filter: none;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-2xl);
+    }
+
+    body.light-theme .custom-modal-icon {
+      color: var(--primary);
+      text-shadow: none;
+    }
+
+    body.light-theme .custom-modal-btn {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+    }
+
+    body.light-theme .custom-modal-btn:hover {
+      box-shadow: 0 8px 20px rgba(79, 70, 229, 0.35);
+    }
+
+    /* Responsif untuk modal */
+    @media (max-width: 480px) {
+      .custom-modal {
+        padding: 2rem 1.5rem;
+      }
+      .custom-modal-icon {
+        font-size: 2.5rem;
+      }
+      .custom-modal-title {
+        font-size: 1.5rem;
+      }
+      .custom-modal-body {
+        font-size: 0.9375rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -906,7 +1037,8 @@
         <i class="fas fa-sun" style="position: absolute;"></i>
         <i class="fas fa-moon" style="position: absolute;"></i>
       </button>
-      <button class="btn-icon" onclick="showInfo()" title="Info">
+      <!-- PERUBAHAN: Menghapus onclick="showInfo()" dan menambahkan id="infoBtn" -->
+      <button class="btn-icon" id="infoBtn" title="Info">
         <i class="fas fa-circle-info"></i>
       </button>
     </div>
@@ -1035,15 +1167,33 @@
     </div>
   </main>
 
+  <!-- TAMBAHAN BARU: HTML untuk modal kustom -->
+  <div class="custom-modal-overlay" id="infoModalOverlay">
+    <div class="custom-modal" id="infoModal">
+      <div class="custom-modal-icon">
+        <i class="fas fa-rocket"></i>
+      </div>
+      <h3 class="custom-modal-title">UranusLoader V2</h3>
+      <p class="custom-modal-body">
+Pengunduh TikTok tepercaya Anda
+Cepat • Aman • Elegan
+
+Dikembangkan dengan sempurna
+      </p>
+      <button class="custom-modal-btn" id="closeInfoModalBtn">Tutup</button>
+    </div>
+  </div>
+
   <footer class="footer">
     <p>© 2025 UranusLoader V2. Dibuat dengan sempurna.</p>
   </footer>
 
   <script>
-    function showInfo() {
-      // Menggunakan custom alert yang lebih baik
+    // PERUBAHAN: Menghapus fungsi showInfo() global
+    /* function showInfo() {
       alert('🚀 UranusLoader V2\n\nPengunduh TikTok tepercaya Anda\nCepat • Aman • Elegan\n\nDikembangkan dengan sempurna');
     }
+    */
      
     const UranusApp = {
       elements: {},
@@ -1064,9 +1214,13 @@
           loadingSection: document.getElementById('loadingSection'),
           inputCard: document.getElementById('inputCard'),
            
-          // PERUBAHAN: Menggunakan kontainer & template
           resultsContainer: document.getElementById('resultsContainer'),
-          resultTemplate: document.getElementById('resultTemplate')
+          resultTemplate: document.getElementById('resultTemplate'),
+          
+          // TAMBAHAN BARU: Cache elemen modal
+          infoBtn: document.getElementById('infoBtn'),
+          infoModalOverlay: document.getElementById('infoModalOverlay'),
+          closeInfoModalBtn: document.getElementById('closeInfoModalBtn')
         };
       },
 
@@ -1082,6 +1236,16 @@
          
         // Event listener untuk tombol tema
         this.elements.themeToggleBtn.addEventListener('click', () => this.toggleTheme());
+        
+        // TAMBAHAN BARU: Event listener untuk modal
+        this.elements.infoBtn.addEventListener('click', () => this.showInfoModal(true));
+        this.elements.closeInfoModalBtn.addEventListener('click', () => this.showInfoModal(false));
+        this.elements.infoModalOverlay.addEventListener('click', (event) => {
+            // Hanya tutup jika klik pada overlay (latar belakang), bukan pada modalnya
+            if (event.target === this.elements.infoModalOverlay) {
+                this.showInfoModal(false);
+            }
+        });
       },
        
       applyInitialTheme() {
@@ -1103,6 +1267,15 @@
           localStorage.setItem('theme', 'light');
         }
       },
+      
+      // TAMBAHAN BARU: Fungsi untuk menampilkan/menyembunyikan modal
+      showInfoModal(show) {
+        if (show) {
+          this.elements.infoModalOverlay.classList.add('active');
+        } else {
+          this.elements.infoModalOverlay.classList.remove('active');
+        }
+      },
 
       focusInput() {
         this.elements.urlInput.focus();
@@ -1111,32 +1284,25 @@
       async processDownload() {
         const allText = this.elements.urlInput.value.trim();
          
-        // 1. Pisahkan string input menjadi array URL
-        //    Regex /[\s\n]+/ memisahkan berdasarkan spasi ATAU baris baru
-        //    .filter(Boolean) menyaring entri kosong jika ada baris kosong
         const urls = allText.split(/[\s\n]+/).filter(Boolean);
 
-        // 2. Cek jika array-nya kosong
         if (urls.length === 0) {
           this.displayError('Silakan masukkan satu atau beberapa URL TikTok');
           return;
         }
 
-        // 3. Tampilkan loading dan hapus hasil sebelumnya
         this.toggleLoading(true);
         this.elements.resultsContainer.innerHTML = '';
         this.elements.resultsContainer.style.display = 'none';
-        let hasSuccessfulDownload = false; // Lacak jika setidaknya satu berhasil
+        let hasSuccessfulDownload = false; 
 
-        // 4. Looping setiap URL
         for (const url of urls) {
            
           if (!this.validateURL(url)) {
             console.warn(`URL tidak valid dilewati: ${url}`);
-            continue; // Lanjut ke URL berikutnya
+            continue; 
           }
 
-          // 5. Pindahkan try/catch ke DALAM loop
           try {
             const apiURL = `https://api.zenzxz.my.id/api/downloader/tiktok?url=${encodeURIComponent(url)}`;
             const response = await fetch(apiURL);
@@ -1144,7 +1310,7 @@
 
             if (result.success && result.data) {
               this.renderResults(result.data);
-              hasSuccessfulDownload = true; // Tandai sukses
+              hasSuccessfulDownload = true; 
             } else {
               this.displayError(`Gagal untuk URL: ${url}\n${result.message || 'Tidak dapat mengambil data video'}`);
             }
@@ -1153,15 +1319,11 @@
             this.displayError(`Terjadi kesalahan jaringan untuk URL: ${url}.`);
           }
            
-          // --- PERBAIKAN: Jeda Antar Permintaan ---
-          // Tambahkan jeda 1.5 detik di antara setiap permintaan untuk menghindari rate-limit
           await new Promise(resolve => setTimeout(resolve, 1500));
         }
          
-        // 6. Sembunyikan loading SETELAH semua loop selesai
         this.toggleLoading(false);
 
-        // 7. Kosongkan input HANYA jika setidaknya satu unduhan berhasil
         if (hasSuccessfulDownload) {
           this.elements.urlInput.value = ''; 
           this.elements.urlInput.focus();
@@ -1172,7 +1334,6 @@
         if (!url || typeof url !== 'string' || url.trim() === '') {
           return false;
         }
-        // Hanya perlu cek apakah mengandung tiktok.com
         if (!url.toLowerCase().includes('tiktok.com')) {
           return false;
         }
@@ -1196,13 +1357,10 @@
         }
       },
 
-      // PERUBAHAN: renderResults kini membuat klon dari template
       renderResults(data) {
-        // 1. Buat klon dari template
         const clone = this.elements.resultTemplate.content.cloneNode(true);
 
-        // 2. Temukan semua elemen di dalam klon (menggunakan querySelector dan CLASS)
-        const itemContainer = clone.querySelector('.result-item-container'); // Container untuk animasi
+        const itemContainer = clone.querySelector('.result-item-container');
         const thumbnail = clone.querySelector('.thumbnail');
         const videoTitle = clone.querySelector('.video-title');
         const duration = clone.querySelector('.duration');
@@ -1216,7 +1374,6 @@
         const copyBtn = clone.querySelector('.copy-title-btn');
         const downloadOptionsContainer = clone.querySelector('.download-options');
 
-        // 3. Isi data ke elemen klon
         thumbnail.src = data.cover || 'https://placehold.co/160x160/4A5568/E2E8F0?text=Thumbnail';
         thumbnail.onerror = () => { thumbnail.onerror=null; thumbnail.src='https://placehold.co/160x160/4A5568/E2E8F0?text=Error'; };
          
@@ -1231,39 +1388,29 @@
           comments.textContent = this.formatNumber(data.statistics.comment_count);
           shares.textContent = this.formatNumber(data.statistics.share_count);
           statisticsRow.style.display = 'flex';
-          // statisticsRow.style.flexWrap = 'wrap'; /* Sudah di CSS */
         } else {
           statisticsRow.style.display = 'none';
           creator.textContent = data.author?.nickname || 'Tidak Dikenal';
         }
 
-        // 4. Buat opsi unduhan di dalam klon
         this.generateDownloadOptions(data, downloadOptionsContainer);
          
-        // 5. Tambahkan event listener untuk tombol copy (yang ada di klon)
         copyBtn.style.display = 'flex';
         copyBtn.addEventListener('click', () => this.copyTitleToClipboard(videoTitle.textContent, copyBtn));
 
-        // 6. Tampilkan kontainer utama jika ini hasil pertama
         if (this.elements.resultsContainer.style.display === 'none') {
           this.elements.resultsContainer.style.display = 'block';
         }
          
-        // 7. Tambahkan animasi slideIn ke item
         itemContainer.style.animation = 'slideIn 0.6s ease-out';
         itemContainer.style.marginBottom = '3rem';
 
-        // 8. Tambahkan klon yang sudah diisi data ke halaman (prepend = tambahkan di atas)
         this.elements.resultsContainer.prepend(itemContainer);
       },
 
       generateDownloadOptions(data, container) {
         let optionsHTML = ''; 
          
-        // PERBAIKAN: Mengganti hdplay dengan play_url (karena hdplay mungkin adalah link berwatermark?)
-        // Saya asumsikan data.hdplay yang Anda maksud adalah NW (No Watermark).
-        // Jika API Anda menyediakan link NW di data.play, gunakan itu. 
-        // Saya tetap menggunakan `hdplay` seperti di kode Anda untuk menghindari error.
         if (data.hdplay) {
           optionsHTML += `
             <div class="download-item">
@@ -1305,14 +1452,12 @@
           `;
         }
 
-        // PERUBAHAN: Mengisi HTML ke container yang spesifik
         container.innerHTML = optionsHTML; 
       },
 
       copyTitleToClipboard(textToCopy, buttonEl) {
         if (!textToCopy) return;
 
-        // Menggunakan navigator.clipboard API yang modern dan lebih baik
         if (navigator.clipboard && window.isSecureContext) {
             navigator.clipboard.writeText(textToCopy)
                 .then(() => {
@@ -1329,11 +1474,9 @@
                 })
                 .catch(err => {
                     console.error('Gagal menyalin judul (Clipboard API):', err);
-                    // Fallback jika API gagal
                     this.fallbackCopyTextToClipboard(textToCopy, buttonEl);
                 });
         } else {
-            // Fallback untuk browser lama
             this.fallbackCopyTextToClipboard(textToCopy, buttonEl);
         }
       },
@@ -1369,12 +1512,12 @@
             buttonEl.title = "Salin Judul";
           }, 2000);
         } else {
+          // Masih menggunakan alert untuk fallback/error copy
           alert('Gagal menyalin. Browser Anda mungkin tidak mendukung fitur ini atau memerlukan izin.');
         }
       },
 
       initiateDownload(url, type) {
-        // Cek jika URL adalah Blob URL, maka tidak perlu window.open
         if (url.startsWith('blob:')) {
             const a = document.createElement('a');
             a.href = url;
@@ -1383,9 +1526,9 @@
             a.click();
             document.body.removeChild(a);
         } else {
-            // Menggunakan window.open dengan tujuan _blank lebih umum untuk link unduhan.
             const newWindow = window.open(url, '_blank');
             if (!newWindow) {
+              // Masih menggunakan alert untuk error pop-up
               alert('Mohon izinkan pop-up untuk situs ini agar dapat mengunduh file.');
             }
         }
@@ -1417,6 +1560,7 @@
       },
 
       displayError(message) {
+        // Masih menggunakan alert untuk notifikasi error
         alert(`⚠️ ${message}`);
       }
     };
