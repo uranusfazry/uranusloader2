@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
   <title>UranusLoader V2 — Pengunduh TikTok Premium</title>
   <meta name="description" content="Unduh video TikTok kualitas HD tanpa watermark - Profesional & Cepat">
-  
+   
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%2300D9FF'/><text x='50' y='70' font-size='60' text-anchor='middle' fill='%23000'>U</text></svg>">
-  
+   
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css">
-  
+   
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Fraunces:wght@600;700;800&display=swap" rel="stylesheet">
-  
+   
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     /* --- TEMA DASAR (GELAP / DARK MODE - FILE 1) --- */
@@ -54,7 +54,7 @@
       --text-tertiary: #9CA3AF;
       --border: #E5E7EB;
       --border-light: #F3F4F6;
-      
+       
       /* Reset glow untuk light mode */
       --glow-primary: rgba(79, 70, 229, 0.25);
       --glow-secondary: rgba(236, 72, 153, 0.25);
@@ -107,18 +107,19 @@
       0% { background-position: -1000px 0; }
       100% { background-position: 1000px 0; }
     }
-    
+     
     @keyframes slideIn {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    
+     
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
 
     .header {
-      position: fixed;
+      /* PERUBAHAN DI SINI: Menggunakan absolute agar diam di atas (tidak ikut scroll) */
+      position: absolute; 
       top: 0;
       left: 0;
       right: 0;
@@ -139,7 +140,8 @@
       display: flex;
       align-items: center;
       gap: 1rem;
-      animation: float 3s ease-in-out infinite;
+      /* PERUBAHAN: Menghapus animasi float agar logo tidak goyang */
+      /* animation: float 3s ease-in-out infinite; */
     }
 
     .logo-icon {
@@ -233,7 +235,7 @@
       z-index: 1;
       transition: transform 0.3s ease;
     }
-    
+     
     /* Tombol tema */
     #themeToggleBtn i.fa-sun { transform: scale(1); }
     #themeToggleBtn i.fa-moon { transform: scale(0); }
@@ -282,7 +284,7 @@
       text-shadow: 0 0 40px var(--glow-primary);
       transition: all 0.3s ease;
     }
-    
+     
     .hero-gradient {
       background: linear-gradient(90deg, var(--primary) 0%, #FFF 50%, var(--secondary) 100%);
       -webkit-background-clip: text;
@@ -617,7 +619,7 @@
     }
 
     /* --- OVERRIDES UNTUK TEMA TERANG --- */
-    
+     
     body.light-theme {
       background: linear-gradient(180deg, #FFFFFF 0%, #F9FAFB 100%);
     }
@@ -641,7 +643,7 @@
       color: white;
       box-shadow: 0 8px 16px rgba(79, 70, 229, 0.25), 0 0 0 1px rgba(79, 70, 229, 0.1) inset;
     }
-    
+     
     body.light-theme .logo-icon::before {
       background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
     }
@@ -664,7 +666,7 @@
       border: 1px solid var(--border);
       color: var(--text-secondary);
     }
-    
+     
     body.light-theme .btn-icon::before {
       opacity: 0; /* Tidak ada gradien di light mode */
     }
@@ -675,7 +677,7 @@
       border-color: var(--primary);
       box-shadow: 0 8px 16px rgba(79, 70, 229, 0.25);
     }
-    
+     
     body.light-theme #themeToggleBtn i.fa-sun { transform: scale(0); }
     body.light-theme #themeToggleBtn i.fa-moon { transform: scale(1); }
 
@@ -740,7 +742,7 @@
       transform: translateY(-3px);
       box-shadow: 0 8px 20px rgba(79, 70, 229, 0.35);
     }
-    
+     
     body.light-theme .loading-spinner {
       border: 4px solid var(--bg-tertiary);
       border-top-color: var(--primary);
@@ -751,7 +753,7 @@
       border: 1px solid var(--border);
       box-shadow: var(--shadow-lg);
     }
-    
+     
     body.light-theme .thumbnail:hover {
       box-shadow: var(--shadow-2xl);
     }
@@ -773,7 +775,7 @@
       color: white;
       box-shadow: 0 2px 8px rgba(79, 70, 229, 0.2);
     }
-    
+     
     /* Override tombol download audio */
     body.light-theme .download-item .btn-primary[style*="--secondary"] {
         background: linear-gradient(135deg, var(--secondary), #F472B6) !important;
@@ -811,7 +813,7 @@
         padding: 0 1.25rem;
         height: 72px;
       }
-      
+       
       .main-content {
         padding: 120px 1rem 80px; /* Padding atas disesuaikan dengan header yang lebih kecil */
       }
@@ -823,7 +825,7 @@
       .hero-subtitle {
         font-size: 1rem;
       }
-      
+       
       /* PERBAIKAN UTAMA MOBILE */
       .input-group {
         flex-direction: column; /* Input dan tombol di bawah di mobile */
@@ -837,11 +839,11 @@
       .video-preview {
         flex-direction: column; /* Thumbnail dan info video di tumpuk */
       }
-      
+       
       .video-info-card {
         padding: 2rem 1.5rem; /* Padding kartu info video yang lebih kompak */
       }
-      
+       
       .video-info {
         margin-top: 1rem;
       }
@@ -854,17 +856,17 @@
       .main-card {
         padding: 1.5rem;
       }
-      
+       
       .download-item {
         flex-direction: column; /* Opsi download ditumpuk (deskripsi di atas tombol) */
         align-items: flex-start;
         padding: 1.5rem;
       }
-      
+       
       .download-item > div:first-child {
           margin-bottom: 1rem; /* Jarak antara teks dan tombol */
       }
-      
+       
       .download-item .btn-primary {
           width: 100%; /* Tombol download di dalam download-item juga full-width */
       }
@@ -876,7 +878,7 @@
       .features-grid {
         grid-template-columns: 1fr; /* Fitur jadi kolom tunggal */
       }
-      
+       
       .feature-card {
           padding: 2rem;
       }
@@ -932,13 +934,13 @@
           rows="4"
           placeholder="Tempelkan satu atau beberapa URL TikTok di sini... (pisahkan dengan baris baru atau spasi)"
         ></textarea>
-        
+         
         <button class="btn-primary" id="downloadBtn">
           <i class="fas fa-arrow-down"></i>
           <span>Unduh</span>
         </button>
       </div>
-      
+       
       <div class="loading-overlay" id="loadingSection" style="margin-top: 1.5rem;">
         <div class="loading-spinner"></div>
         <p style="color: var(--text-secondary); font-weight: 500;">Memproses video Anda...</p>
@@ -960,7 +962,7 @@
                   <i class="fas fa-copy"></i>
                 </button>
               </div>
-              
+               
               <div class="video-meta">
                 <span class="meta-item" style="width: 100%; margin-bottom: 0.5rem;">
                   <i class="fas fa-user meta-icon"></i>
@@ -996,7 +998,7 @@
             </div>
           </div>
         </div>
-        
+         
         <div class="main-card download-card">
           <h3 class="section-title">
             <i class="fas fa-download" style="color: var(--primary);"></i>
@@ -1042,7 +1044,7 @@
       // Menggunakan custom alert yang lebih baik
       alert('🚀 UranusLoader V2\n\nPengunduh TikTok tepercaya Anda\nCepat • Aman • Elegan\n\nDikembangkan dengan sempurna');
     }
-    
+     
     const UranusApp = {
       elements: {},
       videoData: null,
@@ -1061,7 +1063,7 @@
           themeToggleBtn: document.getElementById('themeToggleBtn'), // Tombol tema
           loadingSection: document.getElementById('loadingSection'),
           inputCard: document.getElementById('inputCard'),
-          
+           
           // PERUBAHAN: Menggunakan kontainer & template
           resultsContainer: document.getElementById('resultsContainer'),
           resultTemplate: document.getElementById('resultTemplate')
@@ -1077,11 +1079,11 @@
              this.processDownload();
           }
         });
-        
+         
         // Event listener untuk tombol tema
         this.elements.themeToggleBtn.addEventListener('click', () => this.toggleTheme());
       },
-      
+       
       applyInitialTheme() {
         const savedTheme = localStorage.getItem('theme') || 'dark'; // Default ke gelap
         if (savedTheme === 'light') {
@@ -1108,7 +1110,7 @@
 
       async processDownload() {
         const allText = this.elements.urlInput.value.trim();
-        
+         
         // 1. Pisahkan string input menjadi array URL
         //    Regex /[\s\n]+/ memisahkan berdasarkan spasi ATAU baris baru
         //    .filter(Boolean) menyaring entri kosong jika ada baris kosong
@@ -1128,7 +1130,7 @@
 
         // 4. Looping setiap URL
         for (const url of urls) {
-          
+           
           if (!this.validateURL(url)) {
             console.warn(`URL tidak valid dilewati: ${url}`);
             continue; // Lanjut ke URL berikutnya
@@ -1150,12 +1152,12 @@
             console.error('Fetch Error:', error);
             this.displayError(`Terjadi kesalahan jaringan untuk URL: ${url}.`);
           }
-          
+           
           // --- PERBAIKAN: Jeda Antar Permintaan ---
           // Tambahkan jeda 1.5 detik di antara setiap permintaan untuk menghindari rate-limit
           await new Promise(resolve => setTimeout(resolve, 1500));
         }
-        
+         
         // 6. Sembunyikan loading SETELAH semua loop selesai
         this.toggleLoading(false);
 
@@ -1165,7 +1167,7 @@
           this.elements.urlInput.focus();
         }
       },
-      
+       
       validateURL(url) {
         if (!url || typeof url !== 'string' || url.trim() === '') {
           return false;
@@ -1180,7 +1182,7 @@
       toggleLoading(isLoading) {
         this.elements.loadingSection.style.display = isLoading ? 'block' : 'none';
         this.elements.downloadBtn.disabled = isLoading;
-        
+         
         if (isLoading) {
           this.elements.downloadBtn.innerHTML = `
             <i class="fas fa-spinner fa-spin"></i>
@@ -1217,7 +1219,7 @@
         // 3. Isi data ke elemen klon
         thumbnail.src = data.cover || 'https://placehold.co/160x160/4A5568/E2E8F0?text=Thumbnail';
         thumbnail.onerror = () => { thumbnail.onerror=null; thumbnail.src='https://placehold.co/160x160/4A5568/E2E8F0?text=Error'; };
-        
+         
         videoTitle.textContent = data.title || 'Video Tanpa Judul';
         duration.textContent = `${data.duration || 0} detik`;
         date.textContent = this.formatTimestamp(data.create_time);
@@ -1237,7 +1239,7 @@
 
         // 4. Buat opsi unduhan di dalam klon
         this.generateDownloadOptions(data, downloadOptionsContainer);
-        
+         
         // 5. Tambahkan event listener untuk tombol copy (yang ada di klon)
         copyBtn.style.display = 'flex';
         copyBtn.addEventListener('click', () => this.copyTitleToClipboard(videoTitle.textContent, copyBtn));
@@ -1246,7 +1248,7 @@
         if (this.elements.resultsContainer.style.display === 'none') {
           this.elements.resultsContainer.style.display = 'block';
         }
-        
+         
         // 7. Tambahkan animasi slideIn ke item
         itemContainer.style.animation = 'slideIn 0.6s ease-out';
         itemContainer.style.marginBottom = '3rem';
@@ -1257,7 +1259,7 @@
 
       generateDownloadOptions(data, container) {
         let optionsHTML = ''; 
-        
+         
         // PERBAIKAN: Mengganti hdplay dengan play_url (karena hdplay mungkin adalah link berwatermark?)
         // Saya asumsikan data.hdplay yang Anda maksud adalah NW (No Watermark).
         // Jika API Anda menyediakan link NW di data.play, gunakan itu. 
@@ -1282,7 +1284,7 @@
             </div>
           `;
         }
-        
+         
         if (data.music_info && data.music_info.play) {
           optionsHTML += `
             <div class="download-item">
@@ -1335,24 +1337,24 @@
             this.fallbackCopyTextToClipboard(textToCopy, buttonEl);
         }
       },
-      
+       
       fallbackCopyTextToClipboard(textToCopy, buttonEl) {
         const tempTextArea = document.createElement('textarea');
         tempTextArea.style.position = 'fixed';
         tempTextArea.style.left = '-9999px';
         tempTextArea.value = textToCopy;
-        
+         
         document.body.appendChild(tempTextArea);
         tempTextArea.focus();
         tempTextArea.select();
-        
+         
         let success = false;
         try {
           success = document.execCommand('copy');
         } catch (err) {
           console.error('Gagal menyalin judul:', err);
         }
-        
+         
         document.body.removeChild(tempTextArea);
 
         if (success) {
