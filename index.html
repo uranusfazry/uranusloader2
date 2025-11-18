@@ -11,6 +11,8 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css">
    
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Fraunces:wght@600;700;800&display=swap" rel="stylesheet">
+  <!-- FONT BARU DITAMBAHKAN UNTUK WATERMARK -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
    
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
@@ -54,7 +56,7 @@
       --text-tertiary: #9CA3AF;
       --border: #E5E7EB;
       --border-light: #F3F4F6;
-       
+        
       /* Reset glow untuk light mode */
       --glow-primary: rgba(79, 70, 229, 0.25);
       --glow-secondary: rgba(236, 72, 153, 0.25);
@@ -74,7 +76,6 @@
       overflow-x: hidden;
       position: relative;
       transition: background 0.3s ease, color 0.3s ease;
-      /* PERBAIKAN: Menambahkan anti-aliasing untuk font yang lebih tajam */
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
@@ -96,6 +97,33 @@
       transition: background 0.5s ease, opacity 0.5s ease;
     }
 
+    /* Style Tambahan untuk Wadah Iklan */
+    .ad-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 1.5rem auto;
+        padding: 1rem;
+        background: rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        border: 1px dashed var(--border);
+        overflow: hidden;
+        max-width: 100%;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .ad-label {
+        display: none; /* Ubah ke block jika ingin menampilkan label "Advertisement" */
+        width: 100%;
+        text-align: center;
+        font-size: 0.7rem;
+        color: var(--text-tertiary);
+        margin-bottom: 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
     @keyframes pulse {
       0%, 100% { opacity: 0.15; }
       50% { opacity: 0.25; }
@@ -110,12 +138,12 @@
       0% { background-position: -1000px 0; }
       100% { background-position: 1000px 0; }
     }
-     
+      
     @keyframes slideIn {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
-     
+      
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
@@ -185,7 +213,6 @@
       background: linear-gradient(90deg, var(--primary), #FFF);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      /* PERBAIKAN: Mengganti glow dengan shadow yang lebih tajam */
       text-shadow: 0 1px 3px rgba(0,0,0,0.4);
       transition: all 0.3s ease;
     }
@@ -236,7 +263,7 @@
       z-index: 1;
       transition: transform 0.3s ease;
     }
-     
+      
     /* Tombol tema */
     #themeToggleBtn i.fa-sun { transform: scale(1); }
     #themeToggleBtn i.fa-moon { transform: scale(0); }
@@ -251,7 +278,7 @@
 
     .hero-section {
       text-align: center;
-      margin-bottom: 4rem;
+      margin-bottom: 2rem;
       animation: slideIn 0.8s ease-out;
     }
 
@@ -282,16 +309,14 @@
       margin-bottom: 1.5rem;
       letter-spacing: -2px;
       color: var(--text-primary); /* Base color */
-      /* PERBAIKAN: Mengurangi radius glow agar lebih tajam */
       text-shadow: 0 0 15px var(--glow-primary);
       transition: all 0.3s ease;
     }
-     
+      
     .hero-gradient {
       background: linear-gradient(90deg, var(--primary) 0%, #FFF 50%, var(--secondary) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      /* PERBAIKAN: Menambahkan stroke tipis untuk mempertajam pinggiran */
       -webkit-text-stroke: 0.5px rgba(0, 0, 0, 0.2);
       transition: all 0.3s ease;
     }
@@ -622,7 +647,7 @@
     }
 
     /* --- OVERRIDES UNTUK TEMA TERANG --- */
-     
+      
     body.light-theme {
       background: linear-gradient(180deg, #FFFFFF 0%, #F9FAFB 100%);
     }
@@ -646,7 +671,7 @@
       color: white;
       box-shadow: 0 8px 16px rgba(79, 70, 229, 0.25), 0 0 0 1px rgba(79, 70, 229, 0.1) inset;
     }
-     
+      
     body.light-theme .logo-icon::before {
       background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
     }
@@ -661,7 +686,7 @@
       background: linear-gradient(135deg, var(--primary), var(--secondary));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      text-shadow: none; /* PERBAIKAN: Memastikan shadow ter-override */
+      text-shadow: none;
     }
 
     body.light-theme .btn-icon {
@@ -669,7 +694,7 @@
       border: 1px solid var(--border);
       color: var(--text-secondary);
     }
-     
+      
     body.light-theme .btn-icon::before {
       opacity: 0; /* Tidak ada gradien di light mode */
     }
@@ -680,7 +705,7 @@
       border-color: var(--primary);
       box-shadow: 0 8px 16px rgba(79, 70, 229, 0.25);
     }
-     
+      
     body.light-theme #themeToggleBtn i.fa-sun { transform: scale(0); }
     body.light-theme #themeToggleBtn i.fa-moon { transform: scale(1); }
 
@@ -695,14 +720,13 @@
     body.light-theme .hero-title {
       font-family: 'Fraunces', serif;
       font-weight: 800;
-      text-shadow: none; /* PERBAIKAN: Memastikan shadow ter-override */
+      text-shadow: none;
     }
 
     body.light-theme .hero-gradient {
       background: linear-gradient(135deg, var(--primary), var(--secondary));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      /* PERBAIKAN: Stroke di light mode mungkin perlu disesuaikan (tapi 0.2 opacity hitam masih ok) */
       -webkit-text-stroke: 0.5px rgba(0, 0, 0, 0.1);
     }
 
@@ -747,7 +771,7 @@
       transform: translateY(-3px);
       box-shadow: 0 8px 20px rgba(79, 70, 229, 0.35);
     }
-     
+      
     body.light-theme .loading-spinner {
       border: 4px solid var(--bg-tertiary);
       border-top-color: var(--primary);
@@ -758,7 +782,7 @@
       border: 1px solid var(--border);
       box-shadow: var(--shadow-lg);
     }
-     
+      
     body.light-theme .thumbnail:hover {
       box-shadow: var(--shadow-2xl);
     }
@@ -780,7 +804,7 @@
       color: white;
       box-shadow: 0 2px 8px rgba(79, 70, 229, 0.2);
     }
-     
+      
     /* Override tombol download audio */
     body.light-theme .download-item .btn-primary[style*="--secondary"] {
         background: linear-gradient(135deg, var(--secondary), #F472B6) !important;
@@ -818,7 +842,7 @@
         padding: 0 1.25rem;
         height: 72px;
       }
-       
+        
       .main-content {
         padding: 120px 1rem 80px; /* Padding atas disesuaikan dengan header yang lebih kecil */
       }
@@ -830,7 +854,7 @@
       .hero-subtitle {
         font-size: 1rem;
       }
-       
+        
       /* PERBAIKAN UTAMA MOBILE */
       .input-group {
         flex-direction: column; /* Input dan tombol di bawah di mobile */
@@ -844,11 +868,11 @@
       .video-preview {
         flex-direction: column; /* Thumbnail dan info video di tumpuk */
       }
-       
+        
       .video-info-card {
         padding: 2rem 1.5rem; /* Padding kartu info video yang lebih kompak */
       }
-       
+        
       .video-info {
         margin-top: 1rem;
       }
@@ -861,17 +885,17 @@
       .main-card {
         padding: 1.5rem;
       }
-       
+        
       .download-item {
         flex-direction: column; /* Opsi download ditumpuk (deskripsi di atas tombol) */
         align-items: flex-start;
         padding: 1.5rem;
       }
-       
+        
       .download-item > div:first-child {
           margin-bottom: 1rem; /* Jarak antara teks dan tombol */
       }
-       
+        
       .download-item .btn-primary {
           width: 100%; /* Tombol download di dalam download-item juga full-width */
       }
@@ -883,9 +907,27 @@
       .features-grid {
         grid-template-columns: 1fr; /* Fitur jadi kolom tunggal */
       }
-       
+        
       .feature-card {
           padding: 2rem;
+      }
+       
+      /* Reponsif untuk watermark */
+      #futuristic-watermark {
+          left: 50%;
+          transform: translateX(-50%);
+          bottom: 15px;
+          /* Paksa ukuran minimum jika di mobile terlalu sempit */
+          min-width: 212px; 
+      }
+      #futuristic-watermark:hover {
+          transform: translateX(-50%) translateY(-5px) scale(1.03);
+      }
+      /* Sembunyikan watermark di layar yang sangat kecil */
+      @media (max-width: 360px) {
+          #futuristic-watermark {
+              display: none;
+          }
       }
     }
 
@@ -898,7 +940,7 @@
         font-size: 1.5rem;
       }
     }
-    
+     
     /* --- MODAL KUSTOM (untuk notifikasi info) --- */
     .custom-modal-overlay {
       position: fixed;
@@ -1029,8 +1071,8 @@
         font-size: 0.9375rem;
       }
     }
-    
-    /* --- CSS BARU: MODAL KUSTOM UNTUK ERROR/WARNING --- */
+     
+    /* --- CSS MODAL ERROR/WARNING --- */
     .error-modal-overlay {
       position: fixed;
       top: 0;
@@ -1080,7 +1122,7 @@
       margin-bottom: 1.5rem;
       text-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
     }
-     
+      
     .error-modal-icon.error { /* Opsional: untuk ikon error merah */
         color: #FF4136;
         text-shadow: 0 0 20px rgba(255, 65, 54, 0.4);
@@ -1115,7 +1157,7 @@
       transition: all 0.3s ease;
       box-shadow: 0 4px 16px rgba(255, 215, 0, 0.3);
     }
-     
+      
     .error-modal-btn.error { /* Opsional: untuk tombol error merah */
         background: linear-gradient(135deg, #FF4136, #B10000);
         color: white;
@@ -1126,7 +1168,7 @@
       transform: translateY(-2px);
       box-shadow: 0 8px 24px rgba(255, 215, 0, 0.4);
     }
-     
+      
     .error-modal-btn.error:hover {
         box-shadow: 0 8px 24px rgba(255, 65, 54, 0.4);
     }
@@ -1147,7 +1189,7 @@
       color: #FFD700;
       text-shadow: none;
     }
-     
+      
     body.light-theme .error-modal-icon.error {
         color: #FF4136;
     }
@@ -1157,7 +1199,7 @@
       color: #000;
       box-shadow: 0 4px 12px rgba(255, 215, 0, 0.25);
     }
-     
+      
     body.light-theme .error-modal-btn.error {
         background: linear-gradient(135deg, #FF4136, #B10000);
         color: white;
@@ -1179,6 +1221,146 @@
         font-size: 0.9375rem;
       }
     }
+     
+    /* --- CSS WATERMARK BARU (Digabungkan dan Disesuaikan) --- */
+
+    /* Variabel CSS untuk tema watermark - DISESUAIKAN DENGAN TEMA UTAMA */
+    #futuristic-watermark {
+      /* Tema Gelap (Default) - Dipetakan ke variabel tema utama */
+      --glow-color: var(--primary);
+      --background-color: var(--bg-glass); /* Menggunakan bg-glass yang ada */
+      --border-color: var(--border);
+      --text-color: var(--text-primary);
+      --particle-base-hue: 186; /* Hue untuk --primary (00D9FF) */
+      --particle-base-lightness: 60;
+    }
+
+    /* Tema Terang - Dipetakan ke variabel tema utama */
+    body.light-theme #futuristic-watermark {
+      --glow-color: var(--primary); /* Mengambil --primary dari .light-theme */
+      --background-color: rgba(255, 255, 255, 0.85); /* Kaca terang (mirip bg-secondary) */
+      --border-color: var(--border); /* Mengambil --border dari .light-theme */
+      --text-color: var(--text-primary); /* Mengambil --text-primary dari .light-theme */
+      --particle-base-hue: 242; /* Hue untuk --primary light-theme (4F46E5) */
+      --particle-base-lightness: 58;
+    }
+     
+    /* Keyframes untuk animasi */
+    @keyframes slideUpFadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes logo3DFlip {
+      0% { transform: rotateY(0deg); filter: brightness(1); }
+      50% { transform: rotateY(180deg); filter: brightness(2) drop-shadow(0 0 8px var(--glow-color)); }
+      100% { transform: rotateY(360deg); filter: brightness(1); }
+    }
+     
+    /* Kontainer utama watermark */
+    #futuristic-watermark {
+      position: fixed;
+      bottom: 25px;
+      left: 25px;
+      padding: 8px 15px;
+      min-width: 212px; 
+      background: var(--background-color);
+      color: var(--text-color);
+      font-family: 'Roboto Mono', monospace;
+      font-weight: 500;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(var(--glow-color), 0.15), 
+                  0 0 30px rgba(var(--glow-color), 0.1),
+                  inset 0 0 10px rgba(var(--glow-color), 0.1);
+      z-index: 9999;
+      cursor: pointer;
+      user-select: none;
+      overflow: hidden;
+      opacity: 0;
+      animation: slideUpFadeIn 1s ease-out 0.5s forwards;
+      transition: background-color 0.5s ease, color 0.5s ease, transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+     
+    #futuristic-watermark:hover {
+      transform: translateY(-5px) scale(1.03);
+      border-color: var(--primary); /* Disesuaikan agar konsisten */
+      box-shadow: 0 0 25px rgba(var(--glow-color), 0.4), 
+                  0 0 50px rgba(var(--glow-color), 0.25),
+                  inset 0 0 12px rgba(var(--glow-color), 0.2);
+    }
+     
+    #particle-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .f-content-wrapper {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 18px;
+    }
+
+    .f-content {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .f-content.hidden {
+      opacity: 0;
+      pointer-events: none;
+      position: absolute;
+      transform: scale(0.9);
+    }
+
+    .f-logo-container {
+      width: 18px;
+      height: 18px;
+      transition: transform 0.4s ease;
+      flex-shrink: 0;
+    }
+
+    .f-logo-container.reacting {
+      animation: logo3DFlip 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+     
+    .f-logo-container svg {
+        width: 100%;
+        height: 100%;
+        stroke: var(--glow-color);
+        stroke-width: 8;
+        transition: stroke 0.5s ease;
+    }
+     
+    #f-watermark-text, #f-follow-message {
+        transition: color 0.5s ease;
+    }
+
+    #f-watermark-text {
+        font-size: 12px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+     
+    #f-follow-message {
+      font-size: 11px; 
+      letter-spacing: 0.2px;
+      font-weight: 700;
+      text-align: center;
+      white-space: nowrap;
+    }
   </style>
 </head>
 <body>
@@ -1199,6 +1381,23 @@
   </header>
 
   <main class="main-content">
+    
+    <!-- IKLAN LEADERBOARD 728x90 -->
+    <div class="ad-container">
+        <div class="ad-label">Advertisement</div>
+        <!-- 728x90 -->
+        <script type="text/javascript">
+            atOptions = {
+                'key' : 'bdbb18f42a587304cd33c8bc970aac5f',
+                'format' : 'iframe',
+                'height' : 90,
+                'width' : 728,
+                'params' : {}
+            };
+        </script>
+        <script type="text/javascript" src="//lightingshovestature.com/bdbb18f42a587304cd33c8bc970aac5f/invoke.js"></script>
+    </div>
+
     <section class="hero-section">
       <div class="hero-badge">
         <i class="fas fa-sparkles"></i> Kualitas Premium
@@ -1220,17 +1419,63 @@
           rows="4"
           placeholder="Tempelkan satu atau beberapa URL TikTok di sini... (pisahkan dengan baris baru atau spasi)"
         ></textarea>
-         
+          
         <button class="btn-primary" id="downloadBtn">
           <i class="fas fa-arrow-down"></i>
           <span>Unduh</span>
         </button>
       </div>
-       
+        
       <div class="loading-overlay" id="loadingSection" style="margin-top: 1.5rem;">
         <div class="loading-spinner"></div>
         <p style="color: var(--text-secondary); font-weight: 500;">Memproses video Anda...</p>
       </div>
+    </div>
+
+    <!-- IKLAN NATIVE BANNER & 300x250 (Area Tengah) -->
+    <div class="ad-container" style="flex-direction: column;">
+        <div class="ad-label">Advertisement</div>
+        <!-- NativeBanner -->
+        <script async="async" data-cfasync="false" src="//lightingshovestature.com/b3e4762fdbfc88f7bee0f3edafd42184/invoke.js"></script>
+        <div id="container-b3e4762fdbfc88f7bee0f3edafd42184"></div>
+        
+        <div style="display:flex; flex-wrap:wrap; gap:1rem; justify-content:center;">
+            <!-- 300x250 -->
+            <script type="text/javascript">
+                atOptions = {
+                    'key' : 'b35cf1a562482b9ba9fdbc1e1ed35c6c',
+                    'format' : 'iframe',
+                    'height' : 250,
+                    'width' : 300,
+                    'params' : {}
+                };
+            </script>
+            <script type="text/javascript" src="//lightingshovestature.com/b35cf1a562482b9ba9fdbc1e1ed35c6c/invoke.js"></script>
+
+            <!-- 468x60 -->
+            <script type="text/javascript">
+                atOptions = {
+                    'key' : 'c39885af2650d719d2982a2c7a3458ed',
+                    'format' : 'iframe',
+                    'height' : 60,
+                    'width' : 468,
+                    'params' : {}
+                };
+            </script>
+            <script type="text/javascript" src="//lightingshovestature.com/c39885af2650d719d2982a2c7a3458ed/invoke.js"></script>
+            
+             <!-- 320x50 -->
+            <script type="text/javascript">
+                atOptions = {
+                    'key' : 'b61e70efa8d24abb47d72139a1e773a5',
+                    'format' : 'iframe',
+                    'height' : 50,
+                    'width' : 320,
+                    'params' : {}
+                };
+            </script>
+            <script type="text/javascript" src="//lightingshovestature.com/b61e70efa8d24abb47d72139a1e773a5/invoke.js"></script>
+        </div>
     </div>
 
     <div class="result-section" id="resultsContainer">
@@ -1284,7 +1529,7 @@
             </div>
           </div>
         </div>
-         
+          
         <div class="main-card download-card">
           <h3 class="section-title">
             <i class="fas fa-download" style="color: var(--primary);"></i>
@@ -1319,6 +1564,35 @@
         <p class="feature-desc">Data Anda tetap milik Anda. Tanpa pelacakan, tanpa penyimpanan</p>
       </div>
     </div>
+
+    <!-- IKLAN SKYSCRAPER (Area Bawah) -->
+    <div class="ad-container">
+        <div class="ad-label">Partners</div>
+        <!-- 160x600 -->
+        <script type="text/javascript">
+            atOptions = {
+                'key' : 'e56039c039c9d18d6418f146b476d0d2',
+                'format' : 'iframe',
+                'height' : 600,
+                'width' : 160,
+                'params' : {}
+            };
+        </script>
+        <script type="text/javascript" src="//lightingshovestature.com/e56039c039c9d18d6418f146b476d0d2/invoke.js"></script>
+
+        <!-- 160x300 -->
+        <script type="text/javascript">
+            atOptions = {
+                'key' : 'cac40df05aa2a91fdca2d015109eb89d',
+                'format' : 'iframe',
+                'height' : 300,
+                'width' : 160,
+                'params' : {}
+            };
+        </script>
+        <script type="text/javascript" src="//lightingshovestature.com/cac40df05aa2a91fdca2d015109eb89d/invoke.js"></script>
+    </div>
+
   </main>
 
   <!-- HTML untuk modal info -->
@@ -1354,6 +1628,12 @@ Dikembangkan dengan sempurna
     <p>© 2025 UranusLoader V2. Dibuat dengan sempurna.</p>
   </footer>
 
+  <!-- IKLAN INVISIBLE / OVERLAY (Popunder & SocialBar) -->
+  <!-- Popunder -->
+  <script type='text/javascript' src='//lightingshovestature.com/de/ac/83/deac8352e2399461b685fe76ef4f32e1.js'></script>
+  <!-- SocialBar -->
+  <script type='text/javascript' src='//lightingshovestature.com/23/95/e5/2395e517a659bfa592f55f2475934332.js'></script> 
+
   <script>
     const UranusApp = {
       elements: {},
@@ -1373,21 +1653,21 @@ Dikembangkan dengan sempurna
           themeToggleBtn: document.getElementById('themeToggleBtn'),
           loadingSection: document.getElementById('loadingSection'),
           inputCard: document.getElementById('inputCard'),
-           
+            
           resultsContainer: document.getElementById('resultsContainer'),
           resultTemplate: document.getElementById('resultTemplate'),
-          
+           
           // Elemen modal info
           infoBtn: document.getElementById('infoBtn'),
           infoModalOverlay: document.getElementById('infoModalOverlay'),
           closeInfoModalBtn: document.getElementById('closeInfoModalBtn'),
-          
-          // JAVASCRIPT BARU: Elemen modal error
+           
+          // Elemen modal error
           errorModalOverlay: document.getElementById('errorModalOverlay'),
           errorModalTitle: document.querySelector('#errorModal .error-modal-title'),
           errorModalBody: document.querySelector('#errorModal .error-modal-body'),
           errorModalIcon: document.querySelector('#errorModal .error-modal-icon'),
-          errorModalBtn: document.getElementById('closeErrorModalBtn'), // Nama ID di HTML adalah closeErrorModalBtn
+          errorModalBtn: document.getElementById('closeErrorModalBtn'), 
           closeErrorModalBtn: document.getElementById('closeErrorModalBtn')
         };
       },
@@ -1400,7 +1680,7 @@ Dikembangkan dengan sempurna
              this.processDownload();
           }
         });
-         
+          
         this.elements.themeToggleBtn.addEventListener('click', () => this.toggleTheme());
         
         // Event listener modal info
@@ -1412,7 +1692,7 @@ Dikembangkan dengan sempurna
             }
         });
         
-        // JAVASCRIPT BARU: Event listener modal error
+        // Event listener modal error
         this.elements.closeErrorModalBtn.addEventListener('click', () => this.showErrorModal(false));
         this.elements.errorModalOverlay.addEventListener('click', (event) => {
             if (event.target === this.elements.errorModalOverlay) {
@@ -1420,7 +1700,7 @@ Dikembangkan dengan sempurna
             }
         });
       },
-       
+        
       applyInitialTheme() {
         const savedTheme = localStorage.getItem('theme') || 'dark';
         if (savedTheme === 'light') {
@@ -1440,7 +1720,7 @@ Dikembangkan dengan sempurna
           localStorage.setItem('theme', 'light');
         }
       },
-      
+       
       showInfoModal(show) {
         if (show) {
           this.elements.infoModalOverlay.classList.add('active');
@@ -1448,8 +1728,7 @@ Dikembangkan dengan sempurna
           this.elements.infoModalOverlay.classList.remove('active');
         }
       },
-      
-      // JAVASCRIPT BARU: Fungsi untuk menampilkan/menyembunyikan modal error
+       
       showErrorModal(show) {
         if (show) {
             this.elements.errorModalOverlay.classList.add('active');
@@ -1464,11 +1743,10 @@ Dikembangkan dengan sempurna
 
       async processDownload() {
         const allText = this.elements.urlInput.value.trim();
-         
+          
         const urls = allText.split(/[\s\n]+/).filter(Boolean);
 
         if (urls.length === 0) {
-          // JAVASCRIPT DIPERBARUI: Memanggil modal error
           this.displayError('Silakan masukkan satu atau beberapa URL TikTok.');
           return;
         }
@@ -1479,7 +1757,7 @@ Dikembangkan dengan sempurna
         let hasSuccessfulDownload = false; 
 
         for (const url of urls) {
-           
+            
           if (!this.validateURL(url)) {
             console.warn(`URL tidak valid dilewati: ${url}`);
             continue; 
@@ -1494,18 +1772,16 @@ Dikembangkan dengan sempurna
               this.renderResults(result.data);
               hasSuccessfulDownload = true; 
             } else {
-              // JAVASCRIPT DIPERBARUI: Memanggil modal error (kegagalan API)
               this.displayError(`Gagal untuk URL: ${url}\n${result.message || 'Tidak dapat mengambil data video'}`, true);
             }
           } catch (error) {
             console.error('Fetch Error:', error);
-            // JAVASCRIPT DIPERBARUI: Memanggil modal error (kesalahan jaringan)
             this.displayError(`Terjadi kesalahan jaringan untuk URL: ${url}. Pastikan Anda memiliki koneksi internet.`, true);
           }
-           
+            
           await new Promise(resolve => setTimeout(resolve, 1500));
         }
-         
+          
         this.toggleLoading(false);
 
         if (hasSuccessfulDownload) {
@@ -1513,7 +1789,7 @@ Dikembangkan dengan sempurna
           this.elements.urlInput.focus();
         }
       },
-       
+        
       validateURL(url) {
         if (!url || typeof url !== 'string' || url.trim() === '') {
           return false;
@@ -1527,7 +1803,7 @@ Dikembangkan dengan sempurna
       toggleLoading(isLoading) {
         this.elements.loadingSection.style.display = isLoading ? 'block' : 'none';
         this.elements.downloadBtn.disabled = isLoading;
-         
+          
         if (isLoading) {
           this.elements.downloadBtn.innerHTML = `
             <i class="fas fa-spinner fa-spin"></i>
@@ -1560,7 +1836,7 @@ Dikembangkan dengan sempurna
 
         thumbnail.src = data.cover || 'https://placehold.co/160x160/4A5568/E2E8F0?text=Thumbnail';
         thumbnail.onerror = () => { thumbnail.onerror=null; thumbnail.src='https://placehold.co/160x160/4A5568/E2E8F0?text=Error'; };
-         
+          
         videoTitle.textContent = data.title || 'Video Tanpa Judul';
         duration.textContent = `${data.duration || 0} detik`;
         date.textContent = this.formatTimestamp(data.create_time);
@@ -1578,14 +1854,14 @@ Dikembangkan dengan sempurna
         }
 
         this.generateDownloadOptions(data, downloadOptionsContainer);
-         
+          
         copyBtn.style.display = 'flex';
         copyBtn.addEventListener('click', () => this.copyTitleToClipboard(videoTitle.textContent, copyBtn));
 
         if (this.elements.resultsContainer.style.display === 'none') {
           this.elements.resultsContainer.style.display = 'block';
         }
-         
+          
         itemContainer.style.animation = 'slideIn 0.6s ease-out';
         itemContainer.style.marginBottom = '3rem';
 
@@ -1594,7 +1870,7 @@ Dikembangkan dengan sempurna
 
       generateDownloadOptions(data, container) {
         let optionsHTML = ''; 
-         
+          
         if (data.hdplay) {
           optionsHTML += `
             <div class="download-item">
@@ -1615,7 +1891,7 @@ Dikembangkan dengan sempurna
             </div>
           `;
         }
-         
+          
         if (data.music_info && data.music_info.play) {
           optionsHTML += `
             <div class="download-item">
@@ -1664,24 +1940,24 @@ Dikembangkan dengan sempurna
             this.fallbackCopyTextToClipboard(textToCopy, buttonEl);
         }
       },
-       
+        
       fallbackCopyTextToClipboard(textToCopy, buttonEl) {
         const tempTextArea = document.createElement('textarea');
         tempTextArea.style.position = 'fixed';
         tempTextArea.style.left = '-9999px';
         tempTextArea.value = textToCopy;
-         
+          
         document.body.appendChild(tempTextArea);
         tempTextArea.focus();
         tempTextArea.select();
-         
+          
         let success = false;
         try {
           success = document.execCommand('copy');
         } catch (err) {
           console.error('Gagal menyalin judul:', err);
         }
-         
+          
         document.body.removeChild(tempTextArea);
 
         if (success) {
@@ -1696,7 +1972,6 @@ Dikembangkan dengan sempurna
             buttonEl.title = "Salin Judul";
           }, 2000);
         } else {
-          // JAVASCRIPT DIPERBARUI: Memanggil modal error
           this.displayError('Gagal menyalin. Browser Anda mungkin tidak mendukung fitur ini atau memerlukan izin.', true);
         }
       },
@@ -1712,7 +1987,6 @@ Dikembangkan dengan sempurna
         } else {
             const newWindow = window.open(url, '_blank');
             if (!newWindow) {
-              // JAVASCRIPT DIPERBARUI: Memanggil modal error
               this.displayError('Mohon izinkan pop-up untuk situs ini agar dapat mengunduh file.', true);
             }
         }
@@ -1743,11 +2017,10 @@ Dikembangkan dengan sempurna
         return bytes + ' B';
       },
 
-      // JAVASCRIPT DIPERBARUI: Mengganti alert() dengan modal kustom
       displayError(message, isCritical = false) {
         this.elements.errorModalTitle.textContent = isCritical ? 'Terjadi Kesalahan!' : 'Peringatan!';
         this.elements.errorModalBody.textContent = message;
-         
+          
         const btn = this.elements.errorModalBtn;
         
         // Atur ikon dan warna berdasarkan tipe
@@ -1755,7 +2028,6 @@ Dikembangkan dengan sempurna
             this.elements.errorModalIcon.innerHTML = '<i class="fas fa-circle-exclamation"></i>'; // Ikon error merah
             this.elements.errorModalIcon.classList.add('error');
             btn.classList.add('error');
-            // Terapkan style langsung untuk memastikan override (terutama untuk light mode)
             btn.style.background = 'linear-gradient(135deg, #FF4136, #B10000)';
             btn.style.color = 'white';
             btn.style.boxShadow = '0 4px 16px rgba(255, 65, 54, 0.3)';
@@ -1763,12 +2035,11 @@ Dikembangkan dengan sempurna
             this.elements.errorModalIcon.innerHTML = '<i class="fas fa-triangle-exclamation"></i>'; // Ikon peringatan kuning
             this.elements.errorModalIcon.classList.remove('error');
             btn.classList.remove('error');
-            // Reset style untuk kembali ke default CSS (kuning)
             btn.style.background = '';
             btn.style.color = '';
             btn.style.boxShadow = '';
         }
-         
+          
         this.showErrorModal(true); // Memanggil fungsi untuk menampilkan modal
       }
     };
@@ -1776,6 +2047,155 @@ Dikembangkan dengan sempurna
     document.addEventListener('DOMContentLoaded', () => {
       UranusApp.initialize();
     });
+  </script>
+
+  <!-- SCRIPT BARU UNTUK WATERMARK (DENGAN THEME CLICK DIHAPUS) -->
+  <script>
+    (function() {
+      function initializeWatermark() {
+          const watermarkHTML = `
+            <div id="futuristic-watermark" title="Design by ©URANUSFAZRY">
+              <canvas id="particle-canvas"></canvas>
+              <div class="f-content-wrapper">
+                <div id="f-main-content" class="f-content">
+                  <div class="f-logo-container">
+                    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20 20 L80 20 L80 80 L20 80 Z" stroke-opacity="0.5"/>
+                        <path d="M50 5 L95 50 L50 95 L5 50 Z"/>
+                    </svg>
+                  </div>
+                  <span id="f-watermark-text">©URANUSFAZRY</span>
+                </div>
+                <div id="f-follow-content" class="f-content hidden">
+                    <span id="f-follow-message"></span>
+                </div>
+              </div>
+            </div>
+          `;
+          document.body.insertAdjacentHTML('beforeend', watermarkHTML);
+
+          const watermarkEl = document.getElementById('futuristic-watermark');
+          const textEl = document.getElementById('f-watermark-text');
+          const logoEl = watermarkEl.querySelector('.f-logo-container');
+          const mainContentEl = document.getElementById('f-main-content');
+          const followContentEl = document.getElementById('f-follow-content');
+          const followMessageEl = document.getElementById('f-follow-message');
+           
+          let isAnimating = false;
+          let autoPlayInterval = null;
+          let currentSequence = 0;
+          const sequenceActions = ['scramble', 'logo', 'youtube', 'tiktok', 'reset'];
+
+          const canvas = document.getElementById('particle-canvas');
+          const ctx = canvas.getContext('2d');
+          let particles = [];
+          const resizeCanvas = () => { if (watermarkEl) { canvas.width = watermarkEl.offsetWidth; canvas.height = watermarkEl.offsetHeight; } };
+          class Particle {
+              constructor() { this.reset(); this.baseSpeedX = (Math.random() - 0.5) * 0.5; this.baseSpeedY = (Math.random() - 0.5) * 0.5; this.speedX = this.baseSpeedX; this.speedY = this.baseSpeedY; }
+              update() {
+                  this.x += this.speedX; this.y += this.speedY; this.opacity -= this.fadeSpeed;
+                  if (this.opacity <= 0 || this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) { this.reset(); }
+              }
+              draw() {
+                  // Periksa apakah watermarkEl ada sebelum mengakses gayanya
+                  if (!watermarkEl) return;
+                  const style = getComputedStyle(watermarkEl);
+                  const hue = style.getPropertyValue('--particle-base-hue').trim();
+                  const lightness = parseFloat(style.getPropertyValue('--particle-base-lightness').trim());
+                  ctx.globalAlpha = this.opacity;
+                  ctx.fillStyle = `hsl(${hue}, 100%, ${lightness + this.opacity * 40}%)`;
+                  ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
+              }
+              reset() { 
+                  if (!canvas) return; // Menambahkan penjagaan jika canvas belum siap
+                  this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height; this.opacity = Math.random() * 0.5 + 0.2; this.size = Math.random() * 1.5 + 0.5; this.fadeSpeed = Math.random() * 0.015 + 0.005; 
+              }
+          }
+          const animateParticles = () => { 
+              if (!canvas || !ctx) return; // Menambahkan penjagaan
+              ctx.clearRect(0, 0, canvas.width, canvas.height); 
+              particles.forEach(p => { p.update(); p.draw(); }); 
+              ctx.globalAlpha = 1.0; 
+              requestAnimationFrame(animateParticles); 
+          };
+           
+          const textScramble = (el) => {
+              const originalText = "©URANUSFAZRY";
+              const chars = '!<>*#{}[]'; let frame = 0; isAnimating = true;
+              const interval = setInterval(() => {
+                  el.innerText = originalText.split('').map((char, i) => { const p = (frame - i * 2) / 15; if (p < 0) return ' '; if (p > 1) return char; return chars[Math.floor(Math.random() * chars.length)]; }).join('');
+                  if (frame >= originalText.length * 2 + 15) { clearInterval(interval); el.innerText = originalText; isAnimating = false; } frame++;
+              }, 30);
+          };
+
+          const typewriter = (el, text) => {
+              let i = 0; el.innerHTML = ""; isAnimating = true;
+              const interval = setInterval(() => {
+                  if (i < text.length) { el.innerHTML += text.charAt(i); i++; } 
+                  else { clearInterval(interval); isAnimating = false; }
+              }, 50);
+          };
+
+          const runAutoSequence = () => {
+              if (isAnimating || !textEl || !logoEl || !mainContentEl || !followContentEl || !followMessageEl) return; // Menambahkan penjagaan
+              const action = sequenceActions[currentSequence];
+              switch (action) {
+                  case 'scramble': textScramble(textEl); break;
+                  case 'logo':
+                      isAnimating = true;
+                      logoEl.classList.add('reacting');
+                      logoEl.addEventListener('animationend', () => { logoEl.classList.remove('reacting'); isAnimating = false; }, { once: true });
+                      break;
+                  case 'youtube':
+                      isAnimating = true;
+                      mainContentEl.classList.add('hidden');
+                      setTimeout(() => {
+                          followContentEl.classList.remove('hidden');
+                          typewriter(followMessageEl, "Follow uranusfazry YouTube");
+                      }, 400);
+                      break;
+                  case 'tiktok': 
+                      typewriter(followMessageEl, "Follow uranusfazry TikTok"); 
+                      break;
+                  case 'reset':
+                      isAnimating = true;
+                      followContentEl.classList.add('hidden');
+                      setTimeout(() => {
+                          mainContentEl.classList.remove('hidden');
+                          isAnimating = false;
+                      }, 400);
+                      break;
+              }
+              currentSequence = (currentSequence + 1) % sequenceActions.length;
+          };
+
+          const startAutoPlay = () => {
+              if (autoPlayInterval) clearInterval(autoPlayInterval);
+              runAutoSequence();
+              autoPlayInterval = setInterval(runAutoSequence, 3500);
+          };
+
+          // --- EVENT LISTENER INI DIHAPUS ---
+          // watermarkEl.addEventListener('click', () => { watermarkEl.classList.toggle('light-mode'); });
+           
+          const init = () => {
+              // Menambahkan penjagaan jika watermarkEl tidak ditemukan
+              if (!watermarkEl) return; 
+              resizeCanvas();
+              for (let i = 0; i < 40; i++) particles.push(new Particle());
+              animateParticles();
+              window.addEventListener('resize', resizeCanvas);
+              startAutoPlay();
+          };
+          init();
+      }
+
+      if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initializeWatermark);
+      } else {
+          initializeWatermark();
+      }
+    })();
   </script>
 </body>
 </html>
